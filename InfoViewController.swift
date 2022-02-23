@@ -8,22 +8,42 @@
 import UIKit
 
 class InfoViewController: UIViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
+        self.navigationItem.title = "InfoViewController"
+        
+        let alertButton = UIButton(frame: CGRect(x: 75, y: 350, width: 200, height: 50))
+        alertButton.setTitle("Alert", for: .normal)
+        alertButton.backgroundColor = .systemGray
+        alertButton.addTarget(self, action: #selector(alertAction), for: .touchUpInside)
+        
+        self.view.addSubview(alertButton)
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    
+    
+    
+    @objc func alertAction(sender: UIButton!) {
+        
+        let alert = UIAlertController(title: "Click on the button", message: "Click here.", preferredStyle: .alert)
+        
+        let buttonActionYes = UIAlertAction(title: "Yes",
+                                            style: .default,
+                                            handler: {(action:UIAlertAction!) in
+            print("you pressed the button")
+        })
+        
+        let buttonActionNo = UIAlertAction(title: "No", style: .cancel) { (action:UIAlertAction!) in
+            print("did you press the button after all")
+        }
+        
+        alert.addAction(buttonActionYes)
+        alert.addAction(buttonActionNo)
+        
+        self.present(alert, animated: true)
     }
-    */
-
+    
+    
 }

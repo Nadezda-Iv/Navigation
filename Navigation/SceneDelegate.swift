@@ -8,13 +8,11 @@
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-
+    
     var window: UIWindow?
     
-    
-
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-     
+        
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(frame: UIScreen.main.bounds)
         let home = CustomTabBarController()
@@ -22,18 +20,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.makeKeyAndVisible()
         window?.windowScene = windowScene
         
-       /* let firstVC = ProfileViewController()
-        let secondVC = FeedViewController()
-        
-        
-        
-        // navigation
-        let firstNavController = UINavigationController(rootViewController: firstVC)
-        let secondNavController = UINavigationController(rootViewController: secondVC)
-        
-        home.setViewControllers([firstNavController, secondNavController], animated: true)
-        
-        home.tabBar.barTintColor = .systemGray   */
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
