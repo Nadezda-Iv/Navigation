@@ -9,14 +9,23 @@ import UIKit
 
 class ProfileViewController: UIViewController {
     
+    var profileEx = ProfileHeaderView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.navigationItem.title = "ProfileViewController"
-        self.view.backgroundColor = UIColor.systemMint
+        self.view.backgroundColor = .lightGray
         
         self.tabBarItem.badgeColor = .gray
+        
     }
+        
+        
+    override func viewWillLayoutSubviews() {
+                NSLog("profileEx size: w:\(self.view.bounds.size.width), h: \(self.view.bounds.size.height)")
+            }
+    
     
     
 }
