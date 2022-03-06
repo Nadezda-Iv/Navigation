@@ -19,6 +19,7 @@
 		A3804D4827C3AB1800AC2098 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3804D4727C3AB1800AC2098 /* ViewController.swift */; };
 		A3804D4D27C3AB1900AC2098 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A3804D4C27C3AB1900AC2098 /* Assets.xcassets */; };
 		A3804D5027C3AB1900AC2098 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3804D4E27C3AB1900AC2098 /* LaunchScreen.storyboard */; };
+		A3CC744227CE0CD700EF371D /* FileBag.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CC744127CE0CD700EF371D /* FileBag.swift */; };
 		A3EAC33127C6BE62001C5939 /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3EAC33027C6BE62001C5939 /* InfoViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -37,6 +38,7 @@
 		A3804D4C27C3AB1900AC2098 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A3804D4F27C3AB1900AC2098 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A3804D5127C3AB1900AC2098 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A3CC744127CE0CD700EF371D /* FileBag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileBag.swift; sourceTree = "<group>"; };
 		A3EAC33027C6BE62001C5939 /* InfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -64,12 +66,10 @@
 		A3804D3727C3AB1800AC2098 = {
 			isa = PBXGroup;
 			children = (
-				A36E3C6927C812010001F366 /* Profile */,
-				A3EAC33027C6BE62001C5939 /* InfoViewController.swift */,
-				A378479627C57F3C0016DEB3 /* PostViewController.swift */,
-				A378479427C4D50E0016DEB3 /* Post.swift */,
-				A378479027C4D4E60016DEB3 /* FeedViewController.swift */,
 				A378478E27C4D2C20016DEB3 /* CustomTabBarController.swift */,
+				A3CC744127CE0CD700EF371D /* FileBag.swift */,
+				A36E3C6927C812010001F366 /* Profile */,
+				A3CC744327CE215C00EF371D /* Feed */,
 				A3804D4227C3AB1800AC2098 /* Navigation */,
 				A3804D4127C3AB1800AC2098 /* Products */,
 			);
@@ -94,6 +94,17 @@
 				A3804D5127C3AB1900AC2098 /* Info.plist */,
 			);
 			path = Navigation;
+			sourceTree = "<group>";
+		};
+		A3CC744327CE215C00EF371D /* Feed */ = {
+			isa = PBXGroup;
+			children = (
+				A3EAC33027C6BE62001C5939 /* InfoViewController.swift */,
+				A378479027C4D4E60016DEB3 /* FeedViewController.swift */,
+				A378479427C4D50E0016DEB3 /* Post.swift */,
+				A378479627C57F3C0016DEB3 /* PostViewController.swift */,
+			);
+			path = Feed;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -176,6 +187,7 @@
 				A378478F27C4D2C30016DEB3 /* CustomTabBarController.swift in Sources */,
 				A36E3C6B27C812350001F366 /* ProfileHeaderView.swift in Sources */,
 				A378479527C4D50E0016DEB3 /* Post.swift in Sources */,
+				A3CC744227CE0CD700EF371D /* FileBag.swift in Sources */,
 				A3804D4627C3AB1800AC2098 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
