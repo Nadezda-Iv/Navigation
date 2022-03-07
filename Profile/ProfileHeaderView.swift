@@ -27,6 +27,8 @@ class ProfileHeaderView: UIView {
         imageView.layer.borderWidth = 3
         imageView.layer.borderColor = UIColor.white.cgColor
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.layer.cornerRadius = imageView.frame.height/2
+    
         return imageView
     }()
     
@@ -53,9 +55,10 @@ class ProfileHeaderView: UIView {
     
      lazy var textField: UITextField = {
         let textField = UITextField()
-        textField.isHidden = true
-        textField.backgroundColor = .systemYellow
+        textField.isHidden = false
+        textField.backgroundColor = .white
         textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.layer.cornerRadius = 12
         return textField
     }()
     
@@ -65,7 +68,7 @@ class ProfileHeaderView: UIView {
         button.layer.cornerRadius = 4
         button.setTitle("Set status", for: .normal)
 
-        button.addTarget(self, action: #selector(self.didTapStatusButton), for: .touchUpInside)
+       // button.addTarget(self, action: #selector(self.didTapStatusButton), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -88,6 +91,7 @@ class ProfileHeaderView: UIView {
     }()
     
     private var buttonTopConstraint: NSLayoutConstraint?
+    private var textFieldConstraint: NSLayoutConstraint?
     
     weak var delegate: ProfileHeaderViewProtocol?
     
@@ -109,49 +113,34 @@ class ProfileHeaderView: UIView {
         self.labelsStackView.addArrangedSubview(self.nameLabel)
         self.labelsStackView.addArrangedSubview(self.statusLabel)
         
-        let topConstraint = self.infoStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 16)
-        let leadingConstraint = self.infoStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20)
-        let trailingConstraint = self.infoStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20)
+
         
-        let imageViewAspectRatio = self.imageview.heightAnchor.constraint(equalTo: self.imageview.widthAnchor, multiplier: 1.0)
-        
-        self.buttonTopConstraint = self.statusButton.topAnchor.constraint(equalTo: self.infoStackView.bottomAnchor, constant: 20)
-        self.buttonTopConstraint?.priority = UILayoutPriority(rawValue: 999)
-        let leadingButtonConstraint = self.statusButton.leadingAnchor.constraint(equalTo: self.infoStackView.leadingAnchor)
-        let trailingButtonConstraint = self.statusButton.trailingAnchor.constraint(equalTo: self.infoStackView.trailingAnchor)
-        let bottomButtonConstraint = self.statusButton.bottomAnchor.constraint(equalTo: self.bottomAnchor)
-        let heightButtonConstraint = self.statusButton.heightAnchor.constraint(equalToConstant: 50)
         NSLayoutConstraint.activate([
-            topConstraint, leadingConstraint, trailingConstraint,
-            imageViewAspectRatio,
-            self.buttonTopConstraint, leadingButtonConstraint,
-            trailingButtonConstraint, bottomButtonConstraint, heightButtonConstraint
+            
+            imageview.widthAnchor.constraint(equalToConstant: 100),
+            imageview.heightAnchor.constraint(equalToConstant: 100),
+            imageview.topAnchor.constraint(equalTo: self.topAnchor, constant: 16),
+            imageview.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 16),
+            
+            nameLabel.leftAnchor.constraint(equalTo: imageview.rightAnchor, constant: 20),
+            nameLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 27),
+            nameLabel.rightAnchor.constraint(greaterThanOrEqualTo: self.rightAnchor, constant: -16),
+            
+            statusButton.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 16),
+            statusButton.rightAnchor.constraint(greaterThanOrEqualTo: self.rightAnchor, constant: -16),
+            statusButton.topAnchor.constraint(equalTo: imageview.bottomAnchor, constant: 16),
+            statusButton.heightAnchor.constraint(equalToConstant: 50),
+            
+            textField.leftAnchor.constraint(equalTo: imageview.rightAnchor, constant: 20),
+            textField.rightAnchor.constraint(greaterThanOrEqualTo: self.rightAnchor, constant: -16),
+            textField.bottomAnchor.constraint(equalTo: statusButton.topAnchor, constant: -12),
+            textField.heightAnchor.constraint(equalToConstant: 40),
+            
+            statusLabel.leftAnchor.constraint(equalTo: imageview.rightAnchor, constant: 20),
+            statusLabel.bottomAnchor.constraint(equalTo: textField.topAnchor, constant: -12),
+            statusLabel.rightAnchor.constraint(greaterThanOrEqualTo: self.rightAnchor, constant: -16)
+        
         ].compactMap({ $0 }))
     }
     
-    
-    
-    @objc private func didTapStatusButton() {
-        if self.textField.isHidden {
-            self.addSubview(self.textField)
-            
-            self.buttonTopConstraint?.isActive = false
-            
-            let topConstraint = self.textField.topAnchor.constraint(equalTo: self.infoStackView.bottomAnchor, constant: 10)
-            let leadingConstraint = self.textField.leadingAnchor.constraint(equalTo: self.statusLabel.leadingAnchor)
-            let trailingConstraint = self.textField.trailingAnchor.constraint(equalTo: self.infoStackView.trailingAnchor)
-            let heightTextFieldConstraint = self.textField.heightAnchor.constraint(equalToConstant: 34)
-            self.buttonTopConstraint = self.statusButton.topAnchor.constraint(equalTo: self.textField.bottomAnchor, constant: 20)
-            
-            NSLayoutConstraint.activate([
-                topConstraint, leadingConstraint, trailingConstraint, heightTextFieldConstraint, self.buttonTopConstraint
-            ].compactMap({ $0 }))
-        } else {
-            #warning("Убрать textField из вью!")
-        }
-        
-        self.delegate?.didTapStatusButton(textFieldIsVisible: self.textField.isHidden) { [weak self] in
-            self?.textField.isHidden.toggle()
-        }
-    }
 }
