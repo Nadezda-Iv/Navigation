@@ -24,6 +24,7 @@ class ProfileViewController: UIViewController {
        
        profileHeaderView.statusButton.addTarget(self, action: #selector(printProfileState), for: .touchUpInside)
         profileHeaderView.textField.addTarget(self, action: #selector(changeProfileState), for: .editingChanged)
+        profileHeaderView.changeTitleButton.addTarget(self, action: #selector(changingTitle), for: .touchUpInside)
         view.addSubview(profileHeaderView)
         self.profileHeaderView = profileHeaderView  
     }
@@ -45,10 +46,10 @@ class ProfileViewController: UIViewController {
         let topConstraint = self.profileHeaderView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor)
         let leadingConstraint = self.profileHeaderView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor)
         let trailingConstraint = self.profileHeaderView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor)
-        self.heightConstraint = self.profileHeaderView.heightAnchor.constraint(equalToConstant: 250)
-        
+        let bottomConstraint = self.profileHeaderView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
+        self.heightConstraint = self.profileHeaderView.heightAnchor.constraint(equalToConstant: 220)
         NSLayoutConstraint.activate([
-            topConstraint, leadingConstraint, trailingConstraint, self.heightConstraint
+            topConstraint, leadingConstraint, trailingConstraint, bottomConstraint, heightConstraint
         ].compactMap({ $0 }))
     }
     
@@ -64,4 +65,10 @@ class ProfileViewController: UIViewController {
         profile.status = String(textField.text ?? profile.status)
         print(profile.status)
     }
+    
+    
+    @objc private func changingTitle() {
+        self.title = "new "
+    }
+    
 }

@@ -73,6 +73,15 @@ class ProfileHeaderView: UIView {
         return button
     }()
     
+     lazy var changeTitleButton: UIButton = {
+       let button = UIButton()
+        button.backgroundColor = .systemBlue
+        button.layer.cornerRadius = 6
+        button.setTitle("Change title", for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
     private lazy var labelsStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -89,6 +98,9 @@ class ProfileHeaderView: UIView {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
+    
+    
+    
     
     private var buttonTopConstraint: NSLayoutConstraint?
     private var textFieldConstraint: NSLayoutConstraint?
@@ -108,13 +120,12 @@ class ProfileHeaderView: UIView {
         self.addSubview(self.infoStackView)
         self.addSubview(self.statusButton)
         self.addSubview(self.textField)
+        self.addSubview(self.changeTitleButton)
         self.infoStackView.addArrangedSubview(self.imageview)
         self.infoStackView.addArrangedSubview(self.labelsStackView)
         self.labelsStackView.addArrangedSubview(self.nameLabel)
         self.labelsStackView.addArrangedSubview(self.statusLabel)
-        
 
-        
         NSLayoutConstraint.activate([
             
             imageview.widthAnchor.constraint(equalToConstant: 100),
@@ -138,9 +149,11 @@ class ProfileHeaderView: UIView {
             
             statusLabel.leftAnchor.constraint(equalTo: imageview.rightAnchor, constant: 20),
             statusLabel.bottomAnchor.constraint(equalTo: textField.topAnchor, constant: -12),
-            statusLabel.rightAnchor.constraint(greaterThanOrEqualTo: self.rightAnchor, constant: -16)
-        
+            statusLabel.rightAnchor.constraint(greaterThanOrEqualTo: self.rightAnchor, constant: -16),
+            changeTitleButton.heightAnchor.constraint(equalToConstant: 50),
+            changeTitleButton.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 0),
+            changeTitleButton.rightAnchor.constraint(greaterThanOrEqualTo: self.rightAnchor, constant: 0),
+            changeTitleButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0)
         ].compactMap({ $0 }))
     }
-    
 }
