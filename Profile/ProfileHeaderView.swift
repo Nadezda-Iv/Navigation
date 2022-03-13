@@ -135,7 +135,7 @@ class ProfileHeaderView: UIView {
             changeTitleButton.heightAnchor.constraint(equalToConstant: 50),
             changeTitleButton.leftAnchor.constraint(equalTo: self.leftAnchor),
             changeTitleButton.rightAnchor.constraint(equalTo: self.rightAnchor),
-            changeTitleButton.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+            changeTitleButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
         ].compactMap({ $0 }))
     }
 }
