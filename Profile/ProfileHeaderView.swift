@@ -47,7 +47,7 @@ class ProfileHeaderView: UIView {
      lazy var textField: UITextField = {
         let textField = UITextField()
         textField.isHidden = false
-        textField.backgroundColor = .white
+        textField.backgroundColor = .systemGray6
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.layer.cornerRadius = 12
         return textField
@@ -58,15 +58,6 @@ class ProfileHeaderView: UIView {
         button.backgroundColor = .systemBlue
         button.layer.cornerRadius = 4
         button.setTitle("Set status", for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
-     lazy var changeTitleButton: UIButton = {
-       let button = UIButton()
-        button.backgroundColor = .systemBlue
-        button.layer.cornerRadius = 6
-        button.setTitle("Change title", for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -107,7 +98,7 @@ class ProfileHeaderView: UIView {
         self.addSubview(self.infoStackView)
         self.addSubview(self.statusButton)
         self.addSubview(self.textField)
-        self.addSubview(self.changeTitleButton)
+       // self.addSubview(self.changeTitleButton)
         self.infoStackView.addArrangedSubview(self.imageview)
         self.infoStackView.addArrangedSubview(self.labelsStackView)
         self.labelsStackView.addArrangedSubview(self.nameLabel)
@@ -130,12 +121,8 @@ class ProfileHeaderView: UIView {
             textField.leftAnchor.constraint(equalTo: imageview.rightAnchor, constant: 15),
             textField.rightAnchor.constraint(equalTo: infoStackView.rightAnchor),
             textField.topAnchor.constraint(equalTo: infoStackView.bottomAnchor, constant: 10),
-            textField.heightAnchor.constraint(equalToConstant: 40),
-            
-            changeTitleButton.heightAnchor.constraint(equalToConstant: 50),
-            changeTitleButton.leftAnchor.constraint(equalTo: self.leftAnchor),
-            changeTitleButton.rightAnchor.constraint(equalTo: self.rightAnchor),
-            changeTitleButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
+            textField.heightAnchor.constraint(equalToConstant: 40)
+
         ].compactMap({ $0 }))
     }
 }
