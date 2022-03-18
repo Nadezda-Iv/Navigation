@@ -15,7 +15,7 @@ class FeedViewController: UIViewController {
         super.viewDidLoad()
         
         self.navigationItem.title = "FeedViewController"
-        self.view.backgroundColor = UIColor.lightGray
+        self.view.backgroundColor = .systemMint
         
         let postButton = UIButton(frame: CGRect(x: 75, y: 350, width: 250, height: 45))
         postButton.backgroundColor = .systemBlue

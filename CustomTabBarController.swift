@@ -16,25 +16,27 @@ class CustomTabBarController: UITabBarController {
         view.backgroundColor = .systemBackground
         UITabBar.appearance().barTintColor = .systemBackground
         tabBar.tintColor = .label
+        tabBar.backgroundColor = .systemGray5
         setupVCs()
         
     }
     
     fileprivate func createNavController(for rootViewController: UIViewController,
                                          title: String,
-                                         image: UIImage) -> UIViewController {
+                                         image: UIImage,
+                                         titleTransfer: Bool) -> UIViewController {
         let navController = UINavigationController(rootViewController: rootViewController)
         navController.tabBarItem.title = title
         navController.tabBarItem.image = image
-        navController.navigationBar.prefersLargeTitles = true
+        navController.navigationBar.prefersLargeTitles = titleTransfer
         rootViewController.navigationItem.title = title
         return navController
     }
     
     func setupVCs() {
         viewControllers = [
-            createNavController(for: FeedViewController(), title: NSLocalizedString("Feed", comment: ""), image: UIImage(systemName: "magnifyingglass")!),
-            createNavController(for: ProfileViewController(), title: NSLocalizedString("Profile", comment: ""), image: UIImage(systemName: "person")!)
+            createNavController(for: FeedViewController(), title: NSLocalizedString("Feed", comment: ""), image: UIImage(systemName: "magnifyingglass")!, titleTransfer: true),
+            createNavController(for: ProfileViewController(), title: NSLocalizedString("Profile", comment: ""), image: UIImage(systemName: "person")!, titleTransfer: false)
         ]
     }
     
