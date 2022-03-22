@@ -136,6 +136,7 @@ class ProfileHeaderView: UIView {
             changeTitleButton.leftAnchor.constraint(equalTo: self.leftAnchor),
             changeTitleButton.rightAnchor.constraint(equalTo: self.rightAnchor),
             changeTitleButton.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+            textField.heightAnchor.constraint(equalToConstant: 40)
         ].compactMap({ $0 }))
     }
 }
