@@ -24,7 +24,7 @@ class ProfileViewController: UIViewController {
        
        profileHeaderView.statusButton.addTarget(self, action: #selector(printProfileState), for: .touchUpInside)
         profileHeaderView.textField.addTarget(self, action: #selector(changeProfileState), for: .editingChanged)
-
+        profileHeaderView.changeTitleButton.addTarget(self, action: #selector(changingTitle), for: .touchUpInside)
         view.addSubview(profileHeaderView)
         self.profileHeaderView = profileHeaderView
     }
