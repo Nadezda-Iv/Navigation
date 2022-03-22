@@ -28,39 +28,46 @@ class LogInViewController: UIViewController {
         return ProfileInfo(userName: "", status: "", imageName: "logo")
     }()
     
-    open override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-       
-        view.addSubview(loginView)
-        self.loginView = loginView
-    }
-    
     private var heightConstraint: NSLayoutConstraint?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupView()
-        loginView.statusButton.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
-    }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(sender:)), name: UIResponder.keyboardWillShowNotification, object: nil)
 
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(sender:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+        self.hideKeyboard()
+        
+    }
+    
+    
+    private var bottomConstraint: NSLayoutConstraint?
+    
+    
     private func setupView() {
-        self.view.backgroundColor = .white
+        self.view.backgroundColor = .systemGray4
         self.navigationController?.navigationBar.backgroundColor = .white
         self.view.addSubview(self.scrollView)
         self.scrollView.addSubview(loginView)
-        self.view.addSubview(self.loginView)
-        
-        let topConstraint = self.loginView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor)
-        let leadingConstraint = self.loginView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor)
-        let trailingConstraint = self.loginView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor)
-        let bottomConstraints = self.loginView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
-        
-        let scrollTopConstraint = self.scrollView.topAnchor.constraint(equalTo: self.view.topAnchor)
+        self.loginView.statusButton.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
+    
+    
+        let scrollTopConstraint = self.scrollView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor)
         let scrollLeftConstraint = self.scrollView.leftAnchor.constraint(equalTo: self.view.leftAnchor)
         let scrollRightConstraint = self.scrollView.rightAnchor.constraint(equalTo: self.view.rightAnchor)
         let scrollBottomConstraint = self.scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+        
+        let contentWithScrollViewTopConstraint = self.loginView.topAnchor.constraint(equalTo: self.scrollView.topAnchor)
+        let contentWithScrollViewHeightConstraint = self.loginView.heightAnchor.constraint(equalTo: self.scrollView.heightAnchor)
+        let contentViewCenterXConstraint = self.loginView.centerXAnchor.constraint(equalTo: self.scrollView.centerXAnchor)
+        let contentViewWidthConstraint = self.loginView.widthAnchor.constraint(equalTo: self.scrollView.widthAnchor)
+        let bottomConstraint = self.loginView.bottomAnchor.constraint(equalTo: self.scrollView.bottomAnchor)
+        
+        
         NSLayoutConstraint.activate([
-            topConstraint, leadingConstraint, trailingConstraint, bottomConstraints, scrollTopConstraint, scrollLeftConstraint, scrollRightConstraint, scrollBottomConstraint
+            contentWithScrollViewTopConstraint,contentWithScrollViewHeightConstraint, contentViewCenterXConstraint, contentViewWidthConstraint, bottomConstraint, scrollTopConstraint, scrollLeftConstraint, scrollRightConstraint, scrollBottomConstraint
         ].compactMap({ $0 }))
     }
     
@@ -68,5 +75,30 @@ class LogInViewController: UIViewController {
         let postViewController  = ProfileViewController()
         navigationController?.pushViewController(postViewController, animated: true)
         navigationController?.navigationBar.isHidden = true
+    }
+    
+    
+    @objc func keyboardWillShow(sender: NSNotification) {
+         self.view.frame.origin.y = -300
+    }
+
+    @objc func keyboardWillHide(sender: NSNotification) {
+         self.view.frame.origin.y = 0
+    }
+}
+
+
+extension LogInViewController {
+    func hideKeyboard() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(
+            target: self,
+            action: #selector(LogInViewController.dismissKeyboard))
+
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
 }
