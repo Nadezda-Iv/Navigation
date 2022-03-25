@@ -36,7 +36,7 @@ class CustomTabBarController: UITabBarController {
     func setupVCs() {
         viewControllers = [
             createNavController(for: FeedViewController(), title: NSLocalizedString("Feed", comment: ""), image: UIImage(systemName: "magnifyingglass")!, titleTransfer: true),
-            createNavController(for: ProfileViewController(), title: NSLocalizedString("Profile", comment: ""), image: UIImage(systemName: "person")!, titleTransfer: false)
+            createNavController(for: LogInViewController(), title: NSLocalizedString("Profile", comment: ""), image: UIImage(systemName: "person")!, titleTransfer: false)
         ]
     }
     

@@ -9,12 +9,12 @@ import UIKit
 
 class PostViewController: UIViewController {
     
-    var textTitle = Post(title: "")
+   // var textTitle = Post(title: "", author: "", description: "", image: "", likes: 3, views: 8)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationItem.title = textTitle.title
+        //self.navigationItem.title = textTitle.title
         
         let doneItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(buttonAction))
         self.navigationItem.rightBarButtonItem = doneItem
