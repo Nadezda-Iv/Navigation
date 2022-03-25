@@ -121,8 +121,14 @@ class ProfileHeaderView: UIView {
             textField.leftAnchor.constraint(equalTo: imageview.rightAnchor, constant: 15),
             textField.rightAnchor.constraint(equalTo: infoStackView.rightAnchor),
             textField.topAnchor.constraint(equalTo: infoStackView.bottomAnchor, constant: 10),
+            textField.heightAnchor.constraint(equalToConstant: 40),
+            textField.heightAnchor.constraint(equalToConstant: 40),
+            
+            changeTitleButton.heightAnchor.constraint(equalToConstant: 50),
+            changeTitleButton.leftAnchor.constraint(equalTo: self.leftAnchor),
+            changeTitleButton.rightAnchor.constraint(equalTo: self.rightAnchor),
+            changeTitleButton.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             textField.heightAnchor.constraint(equalToConstant: 40)
-
         ].compactMap({ $0 }))
     }
 }

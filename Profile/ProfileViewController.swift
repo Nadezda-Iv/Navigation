@@ -57,7 +57,7 @@ class ProfileViewController: UIViewController {
         profileHeaderView.textField.addTarget(self, action: #selector(changeProfileState), for: .editingChanged)
         self.changeTitleButton.addTarget(self, action: #selector(changingTitle), for: .touchUpInside)
         view.addSubview(profileHeaderView)
-        self.profileHeaderView = profileHeaderView  
+        self.profileHeaderView = profileHeaderView
     }
     
     private var heightConstraint: NSLayoutConstraint?
