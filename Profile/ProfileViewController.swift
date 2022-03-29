@@ -15,6 +15,18 @@ class ProfileViewController: UIViewController {
         return view
     }()
     
+    private lazy var exitButton: UIButton = {
+        let button = UIButton()
+        button.layer.cornerRadius = 20
+        button.alpha = 0
+        button.clipsToBounds = true
+        button.setBackgroundImage(UIImage(named: "closeButton"), for: .normal)
+        button.addTarget(self, action: #selector(self.didTapSetStatusButton), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    
     private lazy var changeTitleButton: UIButton = {
         let button = UIButton()
          button.backgroundColor = .systemBlue
