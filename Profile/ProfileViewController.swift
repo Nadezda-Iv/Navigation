@@ -8,10 +8,46 @@
 import UIKit
 
 class ProfileViewController: UIViewController {
+
+    
+    private var tap = UITapGestureRecognizer()
+    
+    private lazy var exitButton: UIButton = {
+         let button = UIButton()
+         button.layer.cornerRadius = 20
+         button.alpha = 1
+         button.clipsToBounds = true
+         button.setBackgroundImage(UIImage(named: "img_230392"), for: .normal)
+         //button.addTarget(self, action: #selector(self.didTapSetStatusButton), for: .touchUpInside)
+         button.translatesAutoresizingMaskIntoConstraints = false
+         return button
+     }()
+    
+
+        lazy var imageview: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "avatar")
+        imageView.backgroundColor = .systemRed
+       
+        imageView.layer.borderWidth = 3
+        imageView.frame.size = CGSize(width: 80, height: 80)
+        imageView.layer.cornerRadius = 50
+        imageView.clipsToBounds = true
+        imageView.layer.borderWidth = 3
+        imageView.alpha = 1
+        imageView.layer.borderColor = UIColor.white.cgColor
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.layer.cornerRadius = imageView.frame.height/2
+        imageView.isUserInteractionEnabled = true
+        return imageView
+    }()
+    
+    
     
     private lazy var profileHeaderView: ProfileHeaderView = {
         let view = ProfileHeaderView(frame: .zero)
         view.translatesAutoresizingMaskIntoConstraints = false
+        
         return view
     }()
     
@@ -19,21 +55,9 @@ class ProfileViewController: UIViewController {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .white
+        view.alpha = 1
         return view
     }()
-    
-    
-   /* private lazy var exitButton: UIButton = {
-        let button = UIButton()
-        button.layer.cornerRadius = 20
-        button.alpha = 0
-        button.clipsToBounds = true
-        button.setBackgroundImage(UIImage(named: "img_230392"), for: .normal)
-        button.addTarget(self, action: #selector(self.didTapSetStatusButton), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()  */
-    
     
     private lazy var changeTitleButton: UIButton = {
         let button = UIButton()
@@ -66,7 +90,8 @@ class ProfileViewController: UIViewController {
     private var dataSource: [News.Article] = []
     private let screenWidth = UIScreen.main.bounds.width
     private let screenHeight = UIScreen.main.bounds.height
-    
+    private var imageViewTopConstraint: NSLayoutConstraint?
+    private var imageViewLeftConstraint: NSLayoutConstraint?
     
     var profile: ProfileInfo = {
         return ProfileInfo(userName: "Joke", status: "some state", imageName: "avatar")
@@ -88,6 +113,8 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupView()
+        self.setupGesture()
+        //self.animation()
         self.fetchArticles { [weak self] articles in
             self?.dataSource = articles
             self?.tableView.reloadData()
@@ -108,9 +135,13 @@ class ProfileViewController: UIViewController {
         //view.bringSubviewToFront(self.exitButton)
         
         self.view.addSubview(self.alphaForTableView)
+        self.alphaForTableView.addSubview(self.imageview)
+        self.alphaForTableView.addSubview(self.exitButton)
         self.view.bringSubviewToFront(self.alphaForTableView)
-       // self.alphaView.addSubview(exitButton)
-        self.alphaForTableView.alpha = 0
+        self.alphaForTableView.alpha = 1
+        
+        self.imageViewTopConstraint = imageview.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 16)
+        self.imageViewLeftConstraint = imageview.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor, constant: 16)
         
         
         let alphaTop = self.alphaForTableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor)
@@ -121,12 +152,17 @@ class ProfileViewController: UIViewController {
         let topConstraint = self.profileHeaderView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor)
         let leadingConstraint = self.profileHeaderView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor)
         let trailingConstraint = self.profileHeaderView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor)
-        let heightConstraint = self.profileHeaderView.heightAnchor.constraint(equalToConstant: 220)
+        self.heightConstraint = self.profileHeaderView.heightAnchor.constraint(equalToConstant: 220)
         
-       /* let exitButtonTopConstraint = self.exitButton.topAnchor.constraint(equalTo: self.profileHeaderView.topAnchor, constant: 5)
-        let exitButtonRightConstraint = self.exitButton.rightAnchor.constraint(equalTo: self.profileHeaderView.rightAnchor, constant: -25)
-        let exitButtonHeightConstraint = self.exitButton.heightAnchor.constraint(equalToConstant: 25)
-        let exitButtonWidhtConstraint = self.exitButton.widthAnchor.constraint(equalToConstant: 25) */
+        
+        let topExitbutton = self.exitButton.topAnchor.constraint(equalTo: self.alphaForTableView.topAnchor, constant: 25)
+        let rightExitButton = self.exitButton.rightAnchor.constraint(equalTo: self.alphaForTableView.rightAnchor, constant: -25)
+        let wightExitButton = self.exitButton.widthAnchor.constraint(equalToConstant: 25)
+        let heightExitButton  = self.exitButton.heightAnchor.constraint(equalToConstant: 25)
+        
+        let avatarTop = imageview.widthAnchor.constraint(equalToConstant: 80)
+        let avatarHeight = imageview.heightAnchor.constraint(equalToConstant: 80)
+      
         
         let tableViewTopConstraint = self.tableView.topAnchor.constraint(equalTo: self.profileHeaderView.bottomAnchor)
         let tableViewLeadingConstraint = self.tableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 16)
@@ -141,8 +177,11 @@ class ProfileViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             topConstraint, leadingConstraint, trailingConstraint, heightConstraint, tableViewTopConstraint, tableViewLeadingConstraint, tableViewTrailingConstraint, tableViewBottomConstraint, changeButtonBottomConstraint, changeButtonHeightConstraint, changeButtonLeadingConstraint, changeButtonTrailingConstraint,
-                alphaTop, alphaBottom, alphsLeading, alphaTrailing
+                alphaTop, alphaBottom, alphsLeading, alphaTrailing,
+            topExitbutton, rightExitButton, wightExitButton, heightExitButton,
+            avatarTop, avatarHeight, self.imageViewTopConstraint, self.imageViewLeftConstraint
         ].compactMap({ $0 }))
+        
     }
     
     
@@ -185,6 +224,58 @@ class ProfileViewController: UIViewController {
         photoVC.closure = {
         }
         self.navigationController?.pushViewController(photoVC, animated: true)
+    }
+    
+ /*   private func animation() {
+        if self.profileHeaderView.isTap == true {
+            print("fe")
+            self.heightConstraint?.isActive = false
+            self.heightConstraint = self.profileHeaderView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
+            NSLayoutConstraint.activate([
+             heightConstraint
+            ].compactMap({ $0 }))
+            print("true")
+        } else {
+            print("beeee")
+        }
+    } */
+    
+    
+    private func setupGesture() {
+        self.tap.addTarget(self, action: #selector(self.handleTap(_ :)))
+        self.imageview.addGestureRecognizer(self.tap)
+        print("tap")
+    }
+
+    @objc func handleTap(_ gesture: UITapGestureRecognizer) {
+      let tapLocation = gesture.location(in: imageview.superview)
+      if (imageview.layer.presentation()?.frame.contains(tapLocation))! {
+        print("Bug tapped!")
+        UIView.animate(withDuration: 0.7, delay: 0.0, options: [.curveEaseOut , .beginFromCurrentState], animations: {
+            //self.isTap = true
+            self.exitButton.alpha = 1
+            //self.alphaView.alpha = 0
+            self.imageview.alpha = 1.5
+            self.imageViewTopConstraint?.isActive = false
+            self.imageViewLeftConstraint?.isActive = false
+            self.imageViewTopConstraint = self.imageview.centerXAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerXAnchor)
+            self.imageViewLeftConstraint = self.imageview.centerYAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerYAnchor)
+            NSLayoutConstraint.activate([
+                self.imageViewLeftConstraint, self.imageViewTopConstraint
+            ].compactMap({ $0 }))
+            
+          self.imageview.transform = CGAffineTransform(scaleX: 5, y: 5)
+        }, completion: { finished in
+          UIView.animate(withDuration: 2.0, delay: 2.0, options: [], animations: {
+            //self.imageview.alpha = 0.0
+          }, completion: { finished in
+              self.imageview.transform = CGAffineTransform(scaleX: 1, y: 1)
+            //self.imageview.removeFromSuperview()
+          })
+        })
+      } else {
+        print("Bug not tapped!")
+      }
     }
     
 
