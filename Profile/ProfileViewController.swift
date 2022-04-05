@@ -15,16 +15,24 @@ class ProfileViewController: UIViewController {
         return view
     }()
     
-    private lazy var exitButton: UIButton = {
+    private lazy var alphaForTableView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .white
+        return view
+    }()
+    
+    
+   /* private lazy var exitButton: UIButton = {
         let button = UIButton()
         button.layer.cornerRadius = 20
         button.alpha = 0
         button.clipsToBounds = true
-        button.setBackgroundImage(UIImage(named: "closeButton"), for: .normal)
+        button.setBackgroundImage(UIImage(named: "img_230392"), for: .normal)
         button.addTarget(self, action: #selector(self.didTapSetStatusButton), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
-    }()
+    }()  */
     
     
     private lazy var changeTitleButton: UIButton = {
@@ -56,7 +64,8 @@ class ProfileViewController: UIViewController {
     }()
     
     private var dataSource: [News.Article] = []
-    
+    private let screenWidth = UIScreen.main.bounds.width
+    private let screenHeight = UIScreen.main.bounds.height
     
     
     var profile: ProfileInfo = {
@@ -69,6 +78,7 @@ class ProfileViewController: UIViewController {
        profileHeaderView.statusButton.addTarget(self, action: #selector(printProfileState), for: .touchUpInside)
         profileHeaderView.textField.addTarget(self, action: #selector(changeProfileState), for: .editingChanged)
         self.changeTitleButton.addTarget(self, action: #selector(changingTitle), for: .touchUpInside)
+        
         view.addSubview(profileHeaderView)
         self.profileHeaderView = profileHeaderView  
     }
@@ -85,20 +95,38 @@ class ProfileViewController: UIViewController {
     }
 
     private func setupView() {
+        
+        
         self.view.backgroundColor = .white
         self.navigationController?.navigationBar.isHidden = true
         self.navigationController?.navigationBar.backgroundColor = .white
         self.view.addSubview(self.changeTitleButton)
-        
         self.view.addSubview(self.tableView)
         self.tableView.backgroundColor = .red
-        
         self.view.addSubview(self.profileHeaderView)
+       // self.view.addSubview(self.exitButton)
+        //view.bringSubviewToFront(self.exitButton)
+        
+        self.view.addSubview(self.alphaForTableView)
+        self.view.bringSubviewToFront(self.alphaForTableView)
+       // self.alphaView.addSubview(exitButton)
+        self.alphaForTableView.alpha = 0
+        
+        
+        let alphaTop = self.alphaForTableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor)
+        let alphsLeading = self.alphaForTableView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor)
+        let alphaTrailing = self.alphaForTableView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor)
+        let alphaBottom = self.alphaForTableView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
         
         let topConstraint = self.profileHeaderView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor)
         let leadingConstraint = self.profileHeaderView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor)
         let trailingConstraint = self.profileHeaderView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor)
         let heightConstraint = self.profileHeaderView.heightAnchor.constraint(equalToConstant: 220)
+        
+       /* let exitButtonTopConstraint = self.exitButton.topAnchor.constraint(equalTo: self.profileHeaderView.topAnchor, constant: 5)
+        let exitButtonRightConstraint = self.exitButton.rightAnchor.constraint(equalTo: self.profileHeaderView.rightAnchor, constant: -25)
+        let exitButtonHeightConstraint = self.exitButton.heightAnchor.constraint(equalToConstant: 25)
+        let exitButtonWidhtConstraint = self.exitButton.widthAnchor.constraint(equalToConstant: 25) */
         
         let tableViewTopConstraint = self.tableView.topAnchor.constraint(equalTo: self.profileHeaderView.bottomAnchor)
         let tableViewLeadingConstraint = self.tableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 16)
@@ -112,7 +140,8 @@ class ProfileViewController: UIViewController {
             
         
         NSLayoutConstraint.activate([
-            topConstraint, leadingConstraint, trailingConstraint, heightConstraint, tableViewTopConstraint, tableViewLeadingConstraint, tableViewTrailingConstraint, tableViewBottomConstraint, changeButtonBottomConstraint, changeButtonHeightConstraint, changeButtonLeadingConstraint, changeButtonTrailingConstraint
+            topConstraint, leadingConstraint, trailingConstraint, heightConstraint, tableViewTopConstraint, tableViewLeadingConstraint, tableViewTrailingConstraint, tableViewBottomConstraint, changeButtonBottomConstraint, changeButtonHeightConstraint, changeButtonLeadingConstraint, changeButtonTrailingConstraint,
+                alphaTop, alphaBottom, alphsLeading, alphaTrailing
         ].compactMap({ $0 }))
     }
     
@@ -149,12 +178,17 @@ class ProfileViewController: UIViewController {
         }
     }
     
+    
+    
     private func didTapPhotoCell() {
         let photoVC = PhotosViewController()
         photoVC.closure = {
         }
         self.navigationController?.pushViewController(photoVC, animated: true)
     }
+    
+
+    
 }
 
 extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
