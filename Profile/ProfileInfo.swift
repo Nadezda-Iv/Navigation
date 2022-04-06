@@ -12,3 +12,5 @@ struct ProfileInfo {
     var status: String
     let imageName: String
 }
+
+

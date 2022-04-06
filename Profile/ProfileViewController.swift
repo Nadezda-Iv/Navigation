@@ -29,7 +29,8 @@ class ProfileViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "DefaultCell")
-        tableView.register(PostTableViewCell.self, forCellReuseIdentifier: "ArticleCell")
+        tableView.register(PostTableViewCell.self, forCellReuseIdentifier: "PostTableViewCell")
+        tableView.register(PhotosTableViewCell.self, forCellReuseIdentifier: "PhotosTableViewCell")
         tableView.backgroundColor = .clear
         tableView.backgroundColor = .systemGray6
         tableView.layer.borderColor = UIColor.lightGray.cgColor
@@ -73,6 +74,7 @@ class ProfileViewController: UIViewController {
 
     private func setupView() {
         self.view.backgroundColor = .white
+        self.navigationController?.navigationBar.isHidden = true
         self.navigationController?.navigationBar.backgroundColor = .white
         self.view.addSubview(self.changeTitleButton)
         
@@ -117,6 +119,7 @@ class ProfileViewController: UIViewController {
     
     
     @objc private func changingTitle() {
+        print("rty")
         self.title = "new "
     }
     
@@ -134,24 +137,44 @@ class ProfileViewController: UIViewController {
         }
     }
     
+    private func didTapPhotoCell() {
+        let photoVC = PhotosViewController()
+        photoVC.closure = {
+        }
+        self.navigationController?.pushViewController(photoVC, animated: true)
+    }
 }
-
 
 extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.dataSource.count
-    }
+        return dataSource.count + 1
+        }
+
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "ArticleCell", for: indexPath) as? PostTableViewCell else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath)
+        if indexPath.row == 0 {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "PhotosTableViewCell", for: indexPath) as? PhotosTableViewCell else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath)
+                return cell
+            }
+            return cell
+        } else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "PostTableViewCell", for: indexPath) as? PostTableViewCell else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath)
+                return cell
+            }
+            let article = self.dataSource[indexPath.row - 1]
+            let viewModel = PostTableViewCell.Post(author: article.author, description: article.description, image: article.image, likes: Int(article.likes) ?? 0, views: Int(article.views) ?? 0)
+            cell.setup(with: viewModel)
             return cell
         }
-        
-        let article = self.dataSource[indexPath.row]
-        let viewModel = PostTableViewCell.Post(author: article.author, description: article.description, image: article.image, likes: Int(article.likes) ?? 0, views: Int(article.views) ?? 0)
-        cell.setup(with: viewModel)
-        return cell
+    }
+    
+    func tableView( _ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.row == 0 {
+        self.navigationController?.pushViewController(PhotosViewController(), animated: true)
+        } else { return }
     }
 }
+
