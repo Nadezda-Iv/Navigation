@@ -12,6 +12,61 @@ class ProfileViewController: UIViewController {
     
     private var tap = UITapGestureRecognizer()
     
+    
+    private lazy var nameLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Joker"
+        label.textColor = .black
+        label.font = UIFont.systemFont(ofSize: 18.0)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+     lazy var statusLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Smile"
+        label.font = UIFont.systemFont(ofSize: 14.0)
+        label.textColor = .gray
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+     lazy var textField: UITextField = {
+        let textField = UITextField()
+        //textField.isHidden = false
+        textField.backgroundColor = .black
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.layer.cornerRadius = 12
+        return textField
+    }()
+    
+     lazy var statusButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .systemBlue
+        button.layer.cornerRadius = 4
+        button.setTitle("Set status", for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    private lazy var labelsStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.distribution = .fillEqually
+        stackView.spacing = 5
+      
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    
+    private lazy var infoStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.spacing = 10
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    
     private lazy var exitButton: UIButton = {
          let button = UIButton()
          button.layer.cornerRadius = 20
@@ -42,14 +97,6 @@ class ProfileViewController: UIViewController {
         return imageView
     }()
     
-    
-    
-    private lazy var profileHeaderView: ProfileHeaderView = {
-        let view = ProfileHeaderView(frame: .zero)
-        view.translatesAutoresizingMaskIntoConstraints = false
-        
-        return view
-    }()
     
     private lazy var alphaForTableView: UIView = {
         let view = UIView()
@@ -100,12 +147,12 @@ class ProfileViewController: UIViewController {
     open override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
        
-       profileHeaderView.statusButton.addTarget(self, action: #selector(printProfileState), for: .touchUpInside)
-        profileHeaderView.textField.addTarget(self, action: #selector(changeProfileState), for: .editingChanged)
+       statusButton.addTarget(self, action: #selector(printProfileState), for: .touchUpInside)
+        textField.addTarget(self, action: #selector(changeProfileState), for: .editingChanged)
         self.changeTitleButton.addTarget(self, action: #selector(changingTitle), for: .touchUpInside)
         
-        view.addSubview(profileHeaderView)
-        self.profileHeaderView = profileHeaderView  
+        //view.addSubview(profileHeaderView)
+       // self.profileHeaderView = profileHeaderView
     }
     
     private var heightConstraint: NSLayoutConstraint?
@@ -114,7 +161,6 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
         self.setupView()
         self.setupGesture()
-        //self.animation()
         self.fetchArticles { [weak self] articles in
             self?.dataSource = articles
             self?.tableView.reloadData()
@@ -127,18 +173,25 @@ class ProfileViewController: UIViewController {
         self.view.backgroundColor = .white
         self.navigationController?.navigationBar.isHidden = true
         self.navigationController?.navigationBar.backgroundColor = .white
+        
         self.view.addSubview(self.changeTitleButton)
         self.view.addSubview(self.tableView)
-        self.tableView.backgroundColor = .red
-        self.view.addSubview(self.profileHeaderView)
-       // self.view.addSubview(self.exitButton)
-        //view.bringSubviewToFront(self.exitButton)
         
         self.view.addSubview(self.alphaForTableView)
+        
+        self.alphaForTableView.addSubview(infoStackView)
+        self.labelsStackView.addSubview(nameLabel)
+        self.labelsStackView.addSubview(statusLabel)
+        self.infoStackView.addSubview(labelsStackView)
         self.alphaForTableView.addSubview(self.imageview)
         self.alphaForTableView.addSubview(self.exitButton)
-        self.view.bringSubviewToFront(self.alphaForTableView)
+        self.alphaForTableView.addSubview(statusButton)
+        self.alphaForTableView.addSubview(textField)
+        
+       
         self.alphaForTableView.alpha = 1
+        self.view.bringSubviewToFront(self.alphaForTableView)
+        
         
         self.imageViewTopConstraint = imageview.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 16)
         self.imageViewLeftConstraint = imageview.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor, constant: 16)
@@ -147,13 +200,26 @@ class ProfileViewController: UIViewController {
         let alphaTop = self.alphaForTableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor)
         let alphsLeading = self.alphaForTableView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor)
         let alphaTrailing = self.alphaForTableView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor)
-        let alphaBottom = self.alphaForTableView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
+        let alphaBottom = self.alphaForTableView.heightAnchor.constraint(equalToConstant: 220)
         
-        let topConstraint = self.profileHeaderView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor)
-        let leadingConstraint = self.profileHeaderView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor)
-        let trailingConstraint = self.profileHeaderView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor)
-        self.heightConstraint = self.profileHeaderView.heightAnchor.constraint(equalToConstant: 220)
         
+        let infoStackTopConstraint = infoStackView.topAnchor.constraint(equalTo: self.alphaForTableView.topAnchor, constant: 16)
+        let infoStackLeftConstraint = infoStackView.leftAnchor.constraint(equalTo: self.alphaForTableView.leftAnchor, constant: 150)
+        let infoStackRight = infoStackView.rightAnchor.constraint(equalTo: self.alphaForTableView.rightAnchor, constant: -16)
+        let infoStackHeight = infoStackView.heightAnchor.constraint(equalToConstant: 150)
+
+        
+        let statusButtonLeftConstraint = statusButton.leftAnchor.constraint(equalTo: self.alphaForTableView.leftAnchor, constant: 16)
+        let statusButtonRightConstraint = statusButton.rightAnchor.constraint(equalTo: self.alphaForTableView.rightAnchor, constant: -16)
+        let statusButtonTop = statusButton.topAnchor.constraint(equalTo: self.infoStackView.bottomAnchor, constant: 20)
+        let statusButtonHeight = statusButton.heightAnchor.constraint(equalToConstant: 50)
+        
+        let textFieldRight = textField.leftAnchor.constraint(equalTo: infoStackView.rightAnchor, constant: -15)
+        let textFieldLeft = self.textField.leftAnchor.constraint(equalTo: infoStackView.leftAnchor, constant: 250)
+        let textFieldTop = self.textField.topAnchor.constraint(equalTo: infoStackView.bottomAnchor, constant: 10)
+        let textFieldHeight = self.textField.heightAnchor.constraint(equalToConstant: 40)
+        
+
         
         let topExitbutton = self.exitButton.topAnchor.constraint(equalTo: self.alphaForTableView.topAnchor, constant: 25)
         let rightExitButton = self.exitButton.rightAnchor.constraint(equalTo: self.alphaForTableView.rightAnchor, constant: -25)
@@ -164,7 +230,7 @@ class ProfileViewController: UIViewController {
         let avatarHeight = imageview.heightAnchor.constraint(equalToConstant: 80)
       
         
-        let tableViewTopConstraint = self.tableView.topAnchor.constraint(equalTo: self.profileHeaderView.bottomAnchor)
+        let tableViewTopConstraint = self.tableView.topAnchor.constraint(equalTo: self.alphaForTableView.bottomAnchor)
         let tableViewLeadingConstraint = self.tableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 16)
         let tableViewTrailingConstraint = self.tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -16)
         let tableViewBottomConstraint = self.tableView.bottomAnchor.constraint(equalTo: self.changeTitleButton.topAnchor)
@@ -176,10 +242,14 @@ class ProfileViewController: UIViewController {
             
         
         NSLayoutConstraint.activate([
-            topConstraint, leadingConstraint, trailingConstraint, heightConstraint, tableViewTopConstraint, tableViewLeadingConstraint, tableViewTrailingConstraint, tableViewBottomConstraint, changeButtonBottomConstraint, changeButtonHeightConstraint, changeButtonLeadingConstraint, changeButtonTrailingConstraint,
+     
+            tableViewTopConstraint, tableViewLeadingConstraint, tableViewTrailingConstraint, tableViewBottomConstraint, changeButtonBottomConstraint, changeButtonHeightConstraint, changeButtonLeadingConstraint, changeButtonTrailingConstraint,
                 alphaTop, alphaBottom, alphsLeading, alphaTrailing,
             topExitbutton, rightExitButton, wightExitButton, heightExitButton,
-            avatarTop, avatarHeight, self.imageViewTopConstraint, self.imageViewLeftConstraint
+            avatarTop, avatarHeight, self.imageViewTopConstraint, self.imageViewLeftConstraint,
+            infoStackTopConstraint, infoStackRight, infoStackLeftConstraint, infoStackHeight,
+            statusButtonTop, statusButtonHeight, statusButtonLeftConstraint, statusButtonRightConstraint,
+            textFieldTop, textFieldLeft, textFieldRight, textFieldHeight
         ].compactMap({ $0 }))
         
     }
@@ -187,8 +257,8 @@ class ProfileViewController: UIViewController {
     
     @objc private func printProfileState()
     {
-        self.profileHeaderView.statusLabel.text = profile.status
-        self.profileHeaderView.statusLabel.setNeedsDisplay()
+        self.statusLabel.text = profile.status
+        self.statusLabel.setNeedsDisplay()
     }
     
     @objc private func changeProfileState(_ textField: UITextField)
@@ -225,22 +295,7 @@ class ProfileViewController: UIViewController {
         }
         self.navigationController?.pushViewController(photoVC, animated: true)
     }
-    
- /*   private func animation() {
-        if self.profileHeaderView.isTap == true {
-            print("fe")
-            self.heightConstraint?.isActive = false
-            self.heightConstraint = self.profileHeaderView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
-            NSLayoutConstraint.activate([
-             heightConstraint
-            ].compactMap({ $0 }))
-            print("true")
-        } else {
-            print("beeee")
-        }
-    } */
-    
-    
+
     private func setupGesture() {
         self.tap.addTarget(self, action: #selector(self.handleTap(_ :)))
         self.imageview.addGestureRecognizer(self.tap)
@@ -252,10 +307,7 @@ class ProfileViewController: UIViewController {
       if (imageview.layer.presentation()?.frame.contains(tapLocation))! {
         print("Bug tapped!")
         UIView.animate(withDuration: 0.7, delay: 0.0, options: [.curveEaseOut , .beginFromCurrentState], animations: {
-            //self.isTap = true
             self.exitButton.alpha = 1
-            //self.alphaView.alpha = 0
-            self.imageview.alpha = 1.5
             self.imageViewTopConstraint?.isActive = false
             self.imageViewLeftConstraint?.isActive = false
             self.imageViewTopConstraint = self.imageview.centerXAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerXAnchor)

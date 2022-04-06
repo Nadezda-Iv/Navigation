@@ -9,28 +9,7 @@ import UIKit
 
 
 class ProfileHeaderView: UIView {
-    
-    
-    
-     var isTap: Bool?
-    
-    private lazy var alphaView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .white
-        view.alpha = 1
-        return view
-    }()
-    
-    private lazy var betaView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .white
-        view.alpha = 0
-        return view
-    }()
-
- 
+/*
     private lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.text = "Joker"
@@ -99,24 +78,15 @@ class ProfileHeaderView: UIView {
 
     
     private func drawSelf() {
-        //self.addSubview(self.infoStackView)
+    
         self.addSubview(self.statusButton)
         self.addSubview(self.textField)
         self.addSubview(self.infoStackView)
-        //self.addSubview(alphaView)
-        //self.addSubview(betaView)
-        //self.bringSubviewToFront(alphaView)
-        //self.betaView.addSubview(self.infoStackView)
-        //self.alphaView.addSubview(self.exitButton)
-        //self.alphaView.addSubview(self.imageview)
-       
+    
         self.infoStackView.addArrangedSubview(self.labelsStackView)
         self.labelsStackView.addArrangedSubview(self.nameLabel)
         self.labelsStackView.addArrangedSubview(self.statusLabel)
 
-        
-        //self.imageViewTopConstraint = imageview.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 16)
-       // self.imageViewLeftConstraint = imageview.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor, constant: 16)
         
         NSLayoutConstraint.activate([
    
@@ -141,5 +111,5 @@ class ProfileHeaderView: UIView {
     
   
     
-    
+   */
 }
