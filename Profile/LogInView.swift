@@ -43,7 +43,6 @@ class LogInView: UIView {
         textField.isHidden = false
         textField.backgroundColor = .systemGray6
         textField.translatesAutoresizingMaskIntoConstraints = false
-        //textField.layer.cornerRadius = 12
          textField.textColor = .black
          textField.autocapitalizationType = .none
          textField.font = .systemFont(ofSize: 16)
@@ -67,7 +66,6 @@ class LogInView: UIView {
         textField.placeholder = "Password"
         textField.layer.borderWidth = 0.5
         textField.leftView = UIView(frame: CGRect(x: 0, y: 10, width: 10, height: textField.frame.height))
-        //textField.layer.cornerRadius = 12
         textField.leftViewMode = .always
         textField.layer.borderColor = UIColor.lightGray.cgColor
         return textField
@@ -83,13 +81,6 @@ class LogInView: UIView {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-
-
-    let tableView = UITableView.init(frame: .zero)
-
-    private var buttonTopConstraint: NSLayoutConstraint?
-    private var textFieldConstraint: NSLayoutConstraint?
-    
     
     override init(frame: CGRect) {
         super.init(frame: frame)

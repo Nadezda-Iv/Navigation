@@ -34,7 +34,7 @@ class ProfileViewController: UIViewController {
     lazy var textField: UITextField = {
         let textField = UITextField()
         textField.isHidden = false
-        textField.backgroundColor = .black
+        textField.backgroundColor = .systemGray6
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.layer.cornerRadius = 12
         return textField
@@ -212,9 +212,9 @@ class ProfileViewController: UIViewController {
         let statusButtonTop = statusButton.topAnchor.constraint(equalTo: self.labelsStackView.bottomAnchor, constant: 20)
         let statusButtonHeight = statusButton.heightAnchor.constraint(equalToConstant: 50)
         
-        let textFieldRight = textField.leftAnchor.constraint(equalTo: labelsStackView.rightAnchor, constant: -15)
-        let textFieldLeft = self.textField.leftAnchor.constraint(equalTo: labelsStackView.leftAnchor, constant: 250)
-        let textFieldTop = self.textField.topAnchor.constraint(equalTo: labelsStackView.bottomAnchor, constant: 10)
+        let textFieldRight = textField.rightAnchor.constraint(equalTo: labelsStackView.rightAnchor, constant: -15)
+        let textFieldLeft = self.textField.leftAnchor.constraint(equalTo: labelsStackView.leftAnchor)
+        let textFieldTop = self.textField.topAnchor.constraint(equalTo: statusLabel.bottomAnchor, constant: 40)
         let textFieldHeight = self.textField.heightAnchor.constraint(equalToConstant: 40)
         
         
