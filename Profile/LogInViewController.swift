@@ -9,11 +9,13 @@ import UIKit
 
 class LogInViewController: UIViewController {
     
+    private lazy var regex = "^(?=.*[а-я])(?=.*[А-Я])(?=.*\\d)(?=.*[$@$!%*?&#])[А-Яа-я\\d$@$!%*?&#]{\(8),}$"
+    private let password = "АБаб$123"
+    
     
     private lazy var warningLabel: UILabel = {
         let label = UILabel()
         label.text = "The number of characters is at least 8"
-        //label.backgroundColor = .red
         label.textColor = .systemGray
         label.textAlignment = .center
         label.isHidden = true
@@ -93,13 +95,55 @@ class LogInViewController: UIViewController {
                 print("пароль пустой")
             }
         } else {
-            if loginView.passwordTextField.text!.count < 8 {
+            guard loginView.passwordTextField.text!.count >= 8 else {
                 warningLabel.isHidden = false
+                warningLabel.text = "Пароль содержит не менее 8 символов"
+                print("<8")
+                return
+            }
+            if loginView.passwordTextField.text!.matches(regex) {
+                loginView.passwordTextField.textColor = .green
+                warningLabel.isHidden = false
+                warningLabel.text = "Верные символы в пароле!"
+                print("yes")
+                navigationController?.pushViewController(postViewController, animated: true)
+                navigationController?.navigationBar.isHidden = true
             } else {
-        navigationController?.pushViewController(postViewController, animated: true)
-        navigationController?.navigationBar.isHidden = true
+                warningLabel.isHidden = false
+                warningLabel.text =  "Пароль неверный"
+            print("no")
+            }
+                //navigationController?.pushViewController(postViewController, animated: true)
+                //navigationController?.navigationBar.isHidden = true
+            }
         }
+    
+    
+    /*
+     private func checkValidation(password: String) {
+         guard password.count >= minLength else {
+             messageLabel.text = ""
+             return
+         }
+         
+         if password.matches(regex) {
+             messageLabel.textColor = .green
+             messageLabel.text = "Верные символы в пароле!"
+         } else {
+             messageLabel.textColor = .white
+             messageLabel.text = "Минимум \(minLength) символов\nДолжен содержать: \n1 большую букву,\n1 маленькую букву,\n1 цифру и\n1специальный символ"
+         }
+     }
+     */
+    
+    
+    
+    
+    func passwordVerification(password: String) -> Bool {
+        if passwordUser == password {
+            return true
         }
+         return false
     }
     
     @objc func keyboardWillShow(sender: NSNotification) {
@@ -124,5 +168,11 @@ extension LogInViewController {
 
     @objc func dismissKeyboard() {
         view.endEditing(true)
+    }
+}
+
+extension String {
+    func matches(_ regex: String) -> Bool {
+        return self.range(of: regex, options: .regularExpression, range: nil, locale: nil) != nil
     }
 }

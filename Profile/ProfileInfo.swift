@@ -14,3 +14,4 @@ struct ProfileInfo {
 }
 
 
+let passwordUser = "qwerty123"
