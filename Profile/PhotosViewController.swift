@@ -8,18 +8,46 @@
 import UIKit
 
 class PhotosViewController: UIViewController {
-   
-    
-    var closure: (() -> Void)?
 
+    private var tap = UITapGestureRecognizer()
+    
     private var itemCount: CGFloat = 3
 
+    private lazy var alphaView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .white
+        view.alpha = 0
+        return view
+    }()
+    
+    lazy var imageview: UIImageView = {
+        let imageView = UIImageView()
+        imageView.frame.size = CGSize(width: 80, height: 80)
+        imageView.alpha = 0
+        imageView.layer.borderColor = UIColor.white.cgColor
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.isUserInteractionEnabled = true
+        return imageView
+    }()
+    
     private lazy var layout: UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.minimumInteritemSpacing = 8
         layout.minimumLineSpacing = 8
         return layout
+    }()
+    
+    private lazy var exitButton: UIButton = {
+        let button = UIButton()
+        button.layer.cornerRadius = 25
+        button.alpha = 0
+        button.clipsToBounds = true
+        button.setBackgroundImage(UIImage(named: "img_230392"), for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(exitAnimationImage), for: .touchUpInside)
+        return button
     }()
 
     private lazy var photoCollectionView: UICollectionView = {
@@ -39,6 +67,10 @@ class PhotosViewController: UIViewController {
         self.navigationItem.backButtonTitle = "Back"
         self.navigationItem.title = "Photo Gallery"
         self.view.addSubview(self.photoCollectionView)
+     
+        self.view.addSubview(alphaView)
+        self.alphaView.addSubview(exitButton)
+        self.alphaView.addSubview(imageview)
         self.addConstraints()
     }
 
@@ -53,8 +85,27 @@ class PhotosViewController: UIViewController {
         let photoCollectionLeading = self.photoCollectionView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 8)
         let photoCollectionTrailing = self.photoCollectionView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -8)
         let photoCollectionBottom = self.photoCollectionView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
+        
+        let alphaViewTopConstraint = self.alphaView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor)
+        let alphaViewBottomConstraint = self.alphaView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
+        let alphaViewLeftConstraint = self.alphaView.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor)
+        let alphaViewRightConstraint = self.alphaView.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor)
+        
+        let screen = UIScreen.main.bounds
+        let screenWidth = screen.size.width
+        
+        let imageCenterXConstraint = self.imageview.centerXAnchor.constraint(equalTo: self.alphaView.centerXAnchor)
+        let imageCenterYConstraint = self.imageview.centerYAnchor.constraint(equalTo: self.alphaView.centerYAnchor)
+        let imagewidth = self.imageview.widthAnchor.constraint(equalToConstant: screenWidth)
+        let imageHeight = self.imageview.heightAnchor.constraint(equalToConstant: screenWidth)
+        
+        
+        let exitButtonTopConstraint = self.exitButton.topAnchor.constraint(equalTo: self.alphaView.topAnchor, constant: 25)
+        let exitButtonRightConstraint = self.exitButton.rightAnchor.constraint(equalTo: self.alphaView.rightAnchor, constant: -20)
+        let exitButtonHeightConstraint = self.exitButton.heightAnchor.constraint(equalToConstant: 30)
+        let exitButtonWidthConstraint = self.exitButton.widthAnchor.constraint(equalToConstant: 30)
 
-        NSLayoutConstraint.activate([photoCollectionTop, photoCollectionLeading, photoCollectionTrailing, photoCollectionBottom])
+        NSLayoutConstraint.activate([photoCollectionTop, photoCollectionLeading, photoCollectionTrailing, photoCollectionBottom, exitButtonTopConstraint, exitButtonRightConstraint, exitButtonWidthConstraint, exitButtonHeightConstraint, alphaViewTopConstraint, alphaViewBottomConstraint, alphaViewLeftConstraint, alphaViewRightConstraint, imageCenterYConstraint, imageCenterXConstraint, imagewidth, imageHeight])
     }
 
     private var dataSource = photos
@@ -64,7 +115,7 @@ class PhotosViewController: UIViewController {
         let itemWidth = floor(neededWidth / itemCount)
         return CGSize(width: itemWidth, height: itemWidth)
     }
-    
+   
 }
 
 extension PhotosViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -87,5 +138,29 @@ extension PhotosViewController: UICollectionViewDelegate, UICollectionViewDataSo
         let spacing = (photoCollectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.minimumInteritemSpacing
         return self.itemSize(for: photoCollectionView.frame.width, with: spacing ?? 0)
     }
-
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        UIView.animate(withDuration: 0.5, delay: 0.0, options: [.curveEaseOut , .beginFromCurrentState], animations: {
+        let f = self.dataSource[indexPath.item]
+        self.alphaView.alpha = 1
+        self.imageview.alpha = 1
+        self.imageview.image = f
+        })
+        UIView.animate(withDuration: 0.3, delay: 0.5) {
+            self.exitButton.alpha = 1
+        }
+        
+    }
+    
+    @objc private func exitAnimationImage(sender: UIButton!) {
+        UIView.animate(withDuration: 0.3, delay: 0.5) {
+            self.exitButton.alpha = 0
+        }
+        UIView.animate(withDuration: 0.5, delay: 0.0, options: [.curveEaseOut , .beginFromCurrentState], animations: {
+            self.alphaView.alpha = 0
+            self.imageview.transform = CGAffineTransform(scaleX: 1, y: 1)
+        })
+    }
+    
+    
 }

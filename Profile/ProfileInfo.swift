@@ -12,6 +12,3 @@ struct ProfileInfo {
     var status: String
     let imageName: String
 }
-
-
-let passwordUser = "qwerty123"

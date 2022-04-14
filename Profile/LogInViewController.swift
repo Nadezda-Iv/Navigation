@@ -28,6 +28,7 @@ class LogInViewController: UIViewController {
     
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
+       
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.backgroundColor = .white
         return scrollView
@@ -86,7 +87,10 @@ class LogInViewController: UIViewController {
     
     @objc func buttonAction(sender: UIButton!) {
         let postViewController  = ProfileViewController()
-        if loginView.loginTextField.text!.isEmpty || loginView.passwordTextField.text!.isEmpty {
+        navigationController?.pushViewController(postViewController, animated: true)
+        navigationController?.navigationBar.isHidden = true
+        
+      /*  if loginView.loginTextField.text!.isEmpty || loginView.passwordTextField.text!.isEmpty {
             if loginView.loginTextField.text!.isEmpty {
                 loginView.loginTextField.backgroundColor = .red
                 loginView.loginTextField.alpha = 0.2
@@ -108,16 +112,14 @@ class LogInViewController: UIViewController {
                 loginView.loginTextField.textColor = .green
                 warningLabel.isHidden = false
                 warningLabel.text = "Верные логин и пароль!"
-                print("yes")
                 navigationController?.pushViewController(postViewController, animated: true)
                 navigationController?.navigationBar.isHidden = true
             } else {
                 warningLabel.isHidden = false
                 warningLabel.text =  "Проверьте логин и пароль"
-            print("no")
             }
 
-            }
+            } */
         }
     
     

@@ -127,13 +127,13 @@ class ProfileViewController: UIViewController {
     }()
     
     private var dataSource: [News.Article] = []
-    private let screenWidth = UIScreen.main.bounds.width
-    private let screenHeight = UIScreen.main.bounds.height
+   // private let screenWidth = UIScreen.main.bounds.width
+  //  private let screenHeight = UIScreen.main.bounds.height
     private var imageViewTopConstraint: NSLayoutConstraint?
     private var imageViewLeftConstraint: NSLayoutConstraint?
     
     var profile: ProfileInfo = {
-        return ProfileInfo(userName: "Joke", status: "some state", imageName: "avatar")
+        return ProfileInfo(userName: "Joke", status: "", imageName: "avatar")
     }()
     
     open override func viewWillLayoutSubviews() {
@@ -253,17 +253,22 @@ class ProfileViewController: UIViewController {
     }
     
     
-    @objc private func printProfileState()
-    {
-        self.statusLabel.text = profile.status
-        self.statusLabel.setNeedsDisplay()
-    }
+    @objc private func printProfileState() {
+        if self.textField.text != ""{
+           self.statusLabel.text = profile.status
+           self.statusLabel.setNeedsDisplay()
+           self.textField.backgroundColor = .clear
+        } else {
+            self.textField.backgroundColor = .red
+        }
+       }
+       
+       
+    @objc private func changeProfileState(_ textField: UITextField) {
+           profile.status = String(textField.text ?? profile.status)
+           print(profile.status)
+       }
     
-    @objc private func changeProfileState(_ textField: UITextField)
-    {
-        profile.status = String(textField.text ?? profile.status)
-        print(profile.status)
-    }
     
     
     @objc private func changingTitle() {
@@ -289,17 +294,16 @@ class ProfileViewController: UIViewController {
     
     private func didTapPhotoCell() {
         let photoVC = PhotosViewController()
-        photoVC.closure = {
-        }
+        
         self.navigationController?.pushViewController(photoVC, animated: true)
     }
     
     private func setupGesture() {
         self.tap.addTarget(self, action: #selector(self.handleTap(_ :)))
         self.imageview.addGestureRecognizer(self.tap)
-        
-        print("tap")
     }
+  
+    
     
     @objc func handleTap(_ gesture: UITapGestureRecognizer) {
         let tapLocation = gesture.location(in: imageview.superview)
@@ -370,16 +374,45 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
                 return cell
             }
             let article = self.dataSource[indexPath.row - 1]
-            let viewModel = PostTableViewCell.Post(author: article.author, description: article.description, image: article.image, likes: Int(article.likes) ?? 0, views: Int(article.views) ?? 0)
+            let viewModel = PostTableViewCell.PostUser(author: article.author, description: article.description, image: article.image, likes: Int(article.likes) ?? 0, views: Int(article.views) ?? 0)
             cell.setup(with: viewModel)
             return cell
         }
     }
+
     
     func tableView( _ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
             self.navigationController?.pushViewController(PhotosViewController(), animated: true)
-        } else { return }
+        } else {
+            let vc = PostDetailViewController()
+            let article = self.dataSource[indexPath.row - 1]
+            let viewModel = PostTableViewCell.PostUser(author: article.author, description: article.description, image: article.image, likes: Int(article.likes) ?? 0, views: Int(article.views) ?? 0)
+    
+            vc.author = viewModel.author
+            vc.image = viewModel.image
+            vc.descriptionText = viewModel.description
+            vc.likes = viewModel.likes
+            vc.views = viewModel.views + 1
+            navigationController?.pushViewController(vc, animated: true)
+            print(vc.views as Any)
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        if indexPath.row != 0 {
+            print("del")
+            return .delete
+        }
+        return .none
+    }
+    
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            dataSource.remove(at: indexPath.row - 1)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
     }
 }
 

@@ -9,9 +9,10 @@ import UIKit
 
 
 class PostTableViewCell: UITableViewCell {
+   
+    private var tap = UITapGestureRecognizer()
     
-    
-    struct Post: PostViewModelProtocol {
+    struct PostUser: PostViewModelProtocol {
         
         var author: String  // никнейм автора публикации
         var description: String // текст публикации
@@ -80,10 +81,19 @@ class PostTableViewCell: UITableViewCell {
         label.backgroundColor = .clear
         label.font = UIFont(name: "System", size: 16)
         label.textColor = .black
+        //let tap = UITapGestureRecognizer(target: self, action: #selector(likeLabelTapped))
         label.setContentCompressionResistancePriority(UILayoutPriority(750), for: .vertical)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
+    
+    @objc func handleTap(_ gesture: UITapGestureRecognizer) {
+        self.likesLabel.addGestureRecognizer(self.tap)
+        let tapLocation = gesture.location(in: likesLabel.superview)
+        if (likesLabel.layer.presentation()?.frame.contains(tapLocation))! {
+            
+        }
+    }
     
     private lazy var viewsLabel: UILabel = {
         let label = UILabel()
@@ -112,6 +122,8 @@ class PostTableViewCell: UITableViewCell {
         self.likesLabel.text = nil
         self.viewsLabel.text = nil
     }
+    
+   
     
     private func setupView() {
         self.contentView.backgroundColor = .white
@@ -171,14 +183,30 @@ class PostTableViewCell: UITableViewCell {
 extension PostTableViewCell: Setupable {
     
     func setup(with viewModel: PostViewModelProtocol) {
-        guard let viewModel = viewModel as? Post else { return }
+        guard let viewModel = viewModel as? PostUser else { return }
         
         self.headerLabel.text = viewModel.author
         self.descriptionLabel.text = viewModel.description
         self.pictureImageView.image = UIImage(named: viewModel.image)
         self.likesLabel.text = "Likes: \(String(viewModel.likes))"
         self.viewsLabel.text = "Views: \(String(viewModel.views))"
+        
+        
     }
+    
+  /*  private func setupGesture() {
+        self.tap.addTarget(self, action: #selector(self.handleTap(_ :)))
+        self.likesLabel.addGestureRecognizer(self.tap)
+    }
+  
+    
+    
+    @objc func handleTap(_ gesture: UITapGestureRecognizer) {
+        let tapLocation = gesture.location(in: likesLabel.superview)
+        if (likesLabel.layer.presentation()?.frame.contains(tapLocation))! {
+            
+        }
+    } */
 }
 
 

@@ -46,15 +46,7 @@ class ProfileHeaderView: UIView {
         return button
     }()
     
-    private lazy var labelsStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.distribution = .fillEqually
-        stackView.spacing = 5
-      
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
+20
     
     private lazy var infoStackView: UIStackView = {
         let stackView = UIStackView()
