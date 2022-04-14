@@ -8,10 +8,10 @@
 import UIKit
 
 class ProfileViewController: UIViewController {
-    
-    
+
     private var tap = UITapGestureRecognizer()
     private var viewsCount = 0
+    private var likesCount = 0
     
     private lazy var nameLabel: UILabel = {
         let label = UILabel()
@@ -128,8 +128,6 @@ class ProfileViewController: UIViewController {
     }()
     
     private var dataSource: [News.Article] = []
-   // private let screenWidth = UIScreen.main.bounds.width
-  //  private let screenHeight = UIScreen.main.bounds.height
     private var imageViewTopConstraint: NSLayoutConstraint?
     private var imageViewLeftConstraint: NSLayoutConstraint?
     
@@ -291,6 +289,7 @@ class ProfileViewController: UIViewController {
         }
     }
     
+   
     
     
     private func didTapPhotoCell() {
@@ -374,8 +373,13 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath)
                 return cell
             }
+            cell.likesDelegate = self
             let article = self.dataSource[indexPath.row - 1]
-            let viewModel = PostTableViewCell.PostUser(author: article.author, description: article.description, image: article.image, likes: Int(article.likes) ?? 0, views: Int(article.views)! + viewsCount)
+            let likes = Int(article.likes)! + likesCount
+            let viewModel = PostTableViewCell.PostUser(author: article.author,
+                                                       description: article.description,
+                                                       image: article.image, likes: likes,
+                                                       views: Int(article.views)! + viewsCount)
             cell.setup(with: viewModel)
             return cell
         }
@@ -393,7 +397,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
             vc.author = viewModel.author
             vc.image = viewModel.image
             vc.descriptionText = viewModel.description
-            vc.likes = viewModel.likes
+            vc.likes = viewModel.likes + self.likesCount
             self.viewsCount += 1
             vc.views = viewModel.views + self.viewsCount
             navigationController?.pushViewController(vc, animated: true)
@@ -407,7 +411,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
         }
         return .none
     }
-    
+   
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
@@ -417,3 +421,10 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
+extension ProfileViewController: ChangeLikesDelegate {
+    func likesChanged() {
+        self.likesCount += 1
+        self.tableView.reloadData()
+    }
+    
+}

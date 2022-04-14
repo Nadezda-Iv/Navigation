@@ -10,8 +10,9 @@ import UIKit
 
 class PostTableViewCell: UITableViewCell {
    
-    private var tap = UITapGestureRecognizer()
+    //private var tap = UITapGestureRecognizer()
     private var likesCount = 0
+    weak var likesDelegate: ChangeLikesDelegate?
     struct PostUser: PostViewModelProtocol {
         
         var author: String  // никнейм автора публикации
@@ -81,20 +82,18 @@ class PostTableViewCell: UITableViewCell {
         label.backgroundColor = .clear
         label.font = UIFont(name: "System", size: 16)
         label.textColor = .black
-        let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+        label.isUserInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: #selector(likeLabelTapped))
         label.setContentCompressionResistancePriority(UILayoutPriority(750), for: .vertical)
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.addGestureRecognizer(tap)
         return label
     }()
+
     
-    @objc func handleTap(_ gesture: UITapGestureRecognizer) {
-        self.likesLabel.addGestureRecognizer(self.tap)
-        let tapLocation = gesture.location(in: likesLabel.superview)
-        if (likesLabel.layer.presentation()?.frame.contains(tapLocation))! {
-            self.likesCount += 1
-            print("tap")
-            
-        }
+    
+    @objc func likeLabelTapped() {
+        self.likesDelegate?.likesChanged()
     }
     
     private lazy var viewsLabel: UILabel = {

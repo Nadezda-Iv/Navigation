@@ -87,10 +87,8 @@ class LogInViewController: UIViewController {
     
     @objc func buttonAction(sender: UIButton!) {
         let postViewController  = ProfileViewController()
-        navigationController?.pushViewController(postViewController, animated: true)
-        navigationController?.navigationBar.isHidden = true
         
-      /*  if loginView.loginTextField.text!.isEmpty || loginView.passwordTextField.text!.isEmpty {
+        if loginView.loginTextField.text!.isEmpty || loginView.passwordTextField.text!.isEmpty {
             if loginView.loginTextField.text!.isEmpty {
                 loginView.loginTextField.backgroundColor = .red
                 loginView.loginTextField.alpha = 0.2
@@ -119,7 +117,7 @@ class LogInViewController: UIViewController {
                 warningLabel.text =  "Проверьте логин и пароль"
             }
 
-            } */
+            } 
         }
     
     

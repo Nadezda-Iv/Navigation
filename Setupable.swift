@@ -12,3 +12,7 @@ protocol PostViewModelProtocol {}
 protocol Setupable {
     func setup(with postviewModel: PostViewModelProtocol)
 }
+
+protocol ChangeLikesDelegate: AnyObject {
+    func likesChanged()
+}

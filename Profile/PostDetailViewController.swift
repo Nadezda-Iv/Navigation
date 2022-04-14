@@ -70,6 +70,7 @@ class PostDetailViewController: UIViewController {
         label.backgroundColor = .clear
         label.font = UIFont(name: "System", size: 16)
         label.textColor = .black
+        //label.isUserInteractionEnabled = true
         label.text = "Likes: \(likes ?? 0)"
         label.setContentCompressionResistancePriority(UILayoutPriority(750), for: .vertical)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -92,7 +93,6 @@ class PostDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-      print("sdfsgdsds")
         setup()
     }
     
