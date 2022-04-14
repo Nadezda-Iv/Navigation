@@ -11,7 +11,7 @@ import UIKit
 class PostTableViewCell: UITableViewCell {
    
     private var tap = UITapGestureRecognizer()
-    
+    private var likesCount = 0
     struct PostUser: PostViewModelProtocol {
         
         var author: String  // никнейм автора публикации
@@ -81,7 +81,7 @@ class PostTableViewCell: UITableViewCell {
         label.backgroundColor = .clear
         label.font = UIFont(name: "System", size: 16)
         label.textColor = .black
-        //let tap = UITapGestureRecognizer(target: self, action: #selector(likeLabelTapped))
+        let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap))
         label.setContentCompressionResistancePriority(UILayoutPriority(750), for: .vertical)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -91,6 +91,8 @@ class PostTableViewCell: UITableViewCell {
         self.likesLabel.addGestureRecognizer(self.tap)
         let tapLocation = gesture.location(in: likesLabel.superview)
         if (likesLabel.layer.presentation()?.frame.contains(tapLocation))! {
+            self.likesCount += 1
+            print("tap")
             
         }
     }
@@ -188,7 +190,7 @@ extension PostTableViewCell: Setupable {
         self.headerLabel.text = viewModel.author
         self.descriptionLabel.text = viewModel.description
         self.pictureImageView.image = UIImage(named: viewModel.image)
-        self.likesLabel.text = "Likes: \(String(viewModel.likes))"
+        self.likesLabel.text = "Likes: \(String(viewModel.likes + likesCount))"
         self.viewsLabel.text = "Views: \(String(viewModel.views))"
         
         

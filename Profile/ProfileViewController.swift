@@ -11,7 +11,7 @@ class ProfileViewController: UIViewController {
     
     
     private var tap = UITapGestureRecognizer()
-    
+    private var viewsCount = 0
     
     private lazy var nameLabel: UILabel = {
         let label = UILabel()
@@ -95,6 +95,7 @@ class ProfileViewController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .white
         view.alpha = 1
+       
         return view
     }()
     
@@ -209,7 +210,7 @@ class ProfileViewController: UIViewController {
         
         let statusButtonLeftConstraint = statusButton.leftAnchor.constraint(equalTo: self.alphaForTableView.leftAnchor, constant: 16)
         let statusButtonRightConstraint = statusButton.rightAnchor.constraint(equalTo: self.alphaForTableView.rightAnchor, constant: -16)
-        let statusButtonTop = statusButton.topAnchor.constraint(equalTo: self.labelsStackView.bottomAnchor, constant: 20)
+        let statusButtonTop = statusButton.topAnchor.constraint(equalTo: self.labelsStackView.bottomAnchor, constant: 10)
         let statusButtonHeight = statusButton.heightAnchor.constraint(equalToConstant: 50)
         
         let textFieldRight = textField.rightAnchor.constraint(equalTo: labelsStackView.rightAnchor, constant: -15)
@@ -228,7 +229,7 @@ class ProfileViewController: UIViewController {
         let avatarHeight = imageview.heightAnchor.constraint(equalToConstant: 80)
         
         
-        let tableViewTopConstraint = self.tableView.topAnchor.constraint(equalTo: self.alphaForTableView.bottomAnchor)
+        let tableViewTopConstraint = self.tableView.topAnchor.constraint(equalTo: self.alphaForTableView.bottomAnchor, constant: 15)
         let tableViewLeadingConstraint = self.tableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 16)
         let tableViewTrailingConstraint = self.tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -16)
         let tableViewBottomConstraint = self.tableView.bottomAnchor.constraint(equalTo: self.changeTitleButton.topAnchor)
@@ -374,7 +375,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
                 return cell
             }
             let article = self.dataSource[indexPath.row - 1]
-            let viewModel = PostTableViewCell.PostUser(author: article.author, description: article.description, image: article.image, likes: Int(article.likes) ?? 0, views: Int(article.views) ?? 0)
+            let viewModel = PostTableViewCell.PostUser(author: article.author, description: article.description, image: article.image, likes: Int(article.likes) ?? 0, views: Int(article.views)! + viewsCount)
             cell.setup(with: viewModel)
             return cell
         }
@@ -393,15 +394,15 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
             vc.image = viewModel.image
             vc.descriptionText = viewModel.description
             vc.likes = viewModel.likes
-            vc.views = viewModel.views + 1
+            self.viewsCount += 1
+            vc.views = viewModel.views + self.viewsCount
             navigationController?.pushViewController(vc, animated: true)
-            print(vc.views as Any)
         }
+        tableView.reloadData()
     }
     
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
         if indexPath.row != 0 {
-            print("del")
             return .delete
         }
         return .none
