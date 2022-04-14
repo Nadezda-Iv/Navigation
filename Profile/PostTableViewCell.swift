@@ -9,7 +9,7 @@ import UIKit
 
 
 class PostTableViewCell: UITableViewCell {
-   
+    
     //private var tap = UITapGestureRecognizer()
     private var likesCount = 0
     weak var likesDelegate: ChangeLikesDelegate?
@@ -89,7 +89,7 @@ class PostTableViewCell: UITableViewCell {
         label.addGestureRecognizer(tap)
         return label
     }()
-
+    
     
     
     @objc func likeLabelTapped() {
@@ -124,7 +124,7 @@ class PostTableViewCell: UITableViewCell {
         self.viewsLabel.text = nil
     }
     
-   
+    
     
     private func setupView() {
         self.contentView.backgroundColor = .white
@@ -140,7 +140,7 @@ class PostTableViewCell: UITableViewCell {
         
         let backViewConstraints = self.backViewConstraints()
         let stackViewPostConstraints = self.stackViewPostConstraints()
-
+        
         NSLayoutConstraint.activate(
             backViewConstraints +
             stackViewPostConstraints)
@@ -162,7 +162,7 @@ class PostTableViewCell: UITableViewCell {
         let leadingConstraint = self.stackViewPost.leadingAnchor.constraint(equalTo: self.backView.leadingAnchor)
         let trailingConstraint = self.stackViewPost.trailingAnchor.constraint(equalTo: self.backView.trailingAnchor)
         let bottomConstraint = self.stackViewPost.bottomAnchor.constraint(equalTo: self.backView.bottomAnchor)
-
+        
         return [
             topConstraint, leadingConstraint, trailingConstraint, bottomConstraint,
         ]
@@ -173,12 +173,11 @@ class PostTableViewCell: UITableViewCell {
         let leadingConstraint = self.stackViewLikesViews.leadingAnchor.constraint(equalTo: self.stackViewPost.leadingAnchor)
         let trailingConstraint = self.stackViewLikesViews.trailingAnchor.constraint(equalTo: self.stackViewPost.trailingAnchor)
         let bottomConstraint = self.stackViewLikesViews.bottomAnchor.constraint(equalTo: self.stackViewPost.bottomAnchor)
-
+        
         return [
-            topConstraint, leadingConstraint, trailingConstraint, bottomConstraint
-        ]
+            topConstraint, leadingConstraint, trailingConstraint, bottomConstraint]
     }
-
+    
 }
 
 extension PostTableViewCell: Setupable {
@@ -192,22 +191,7 @@ extension PostTableViewCell: Setupable {
         self.likesLabel.text = "Likes: \(String(viewModel.likes + likesCount))"
         self.viewsLabel.text = "Views: \(String(viewModel.views))"
         
-        
     }
-    
-  /*  private func setupGesture() {
-        self.tap.addTarget(self, action: #selector(self.handleTap(_ :)))
-        self.likesLabel.addGestureRecognizer(self.tap)
-    }
-  
-    
-    
-    @objc func handleTap(_ gesture: UITapGestureRecognizer) {
-        let tapLocation = gesture.location(in: likesLabel.superview)
-        if (likesLabel.layer.presentation()?.frame.contains(tapLocation))! {
-            
-        }
-    } */
 }
 
 

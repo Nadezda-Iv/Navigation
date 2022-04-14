@@ -28,7 +28,7 @@ class LogInViewController: UIViewController {
     
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
-       
+        
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.backgroundColor = .white
         return scrollView
@@ -47,12 +47,12 @@ class LogInViewController: UIViewController {
         self.setupView()
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(sender:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-
+        
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(sender:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         
         self.hideKeyboard()
     }
-
+    
     private func setupView() {
         self.view.backgroundColor = .systemGray4
         self.navigationController?.navigationBar.backgroundColor = .white
@@ -60,8 +60,8 @@ class LogInViewController: UIViewController {
         self.scrollView.addSubview(loginView)
         self.loginView.statusButton.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
         self.scrollView.addSubview(warningLabel)
-    
-    
+        
+        
         let scrollTopConstraint = self.scrollView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor)
         let scrollLeftConstraint = self.scrollView.leftAnchor.constraint(equalTo: self.view.leftAnchor)
         let scrollRightConstraint = self.scrollView.rightAnchor.constraint(equalTo: self.view.rightAnchor)
@@ -92,17 +92,14 @@ class LogInViewController: UIViewController {
             if loginView.loginTextField.text!.isEmpty {
                 loginView.loginTextField.backgroundColor = .red
                 loginView.loginTextField.alpha = 0.2
-                print("login пустой")
             } else {
                 loginView.passwordTextField.backgroundColor = .red
                 loginView.passwordTextField.alpha = 0.2
-                print("пароль пустой")
             }
         } else {
             guard loginView.passwordTextField.text!.count >= 8 else {
                 warningLabel.isHidden = false
                 warningLabel.text = "Пароль содержит не менее 8 символов"
-                print("<8")
                 return
             }
             if loginView.passwordTextField.text!.matches(regexPassword) && loginView.loginTextField.text!.matches(emailRegEx) && loginView.passwordTextField.text! == password && loginView.loginTextField.text! == login {
@@ -113,20 +110,26 @@ class LogInViewController: UIViewController {
                 navigationController?.pushViewController(postViewController, animated: true)
                 navigationController?.navigationBar.isHidden = true
             } else {
-                warningLabel.isHidden = false
-                warningLabel.text =  "Проверьте логин и пароль"
+                //warningLabel.isHidden = false
+                //warningLabel.text =  "Проверьте логин и пароль"
+                let alert = UIAlertController(title: "Проверьте логин и пароль", message: "", preferredStyle: .alert)
+                let buttonActionOk = UIAlertAction(title: "Ok", style: .cancel) { (action:UIAlertAction!) in
+                }
+                
+                alert.addAction(buttonActionOk)
+                self.present(alert, animated: true)
             }
-
-            } 
+            
         }
+    }
     
     
     @objc func keyboardWillShow(sender: NSNotification) {
-         self.view.frame.origin.y = -300
+        self.view.frame.origin.y = -300
     }
-
+    
     @objc func keyboardWillHide(sender: NSNotification) {
-         self.view.frame.origin.y = 0
+        self.view.frame.origin.y = 0
     }
 }
 
@@ -136,11 +139,11 @@ extension LogInViewController {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(
             target: self,
             action: #selector(LogInViewController.dismissKeyboard))
-
+        
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
     }
-
+    
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
