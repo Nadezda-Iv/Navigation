@@ -143,6 +143,9 @@ class ProfileViewController: UIViewController {
         textField.addTarget(self, action: #selector(changeProfileState), for: .editingChanged)
         self.changeTitleButton.addTarget(self, action: #selector(changingTitle), for: .touchUpInside)
         exitButton.addTarget(self, action: #selector(exitAnimationAvatar), for: .touchUpInside)
+        view.addSubview(profileHeaderView)
+        self.profileHeaderView = profileHeaderView
+
     }
     
     private var heightConstraint: NSLayoutConstraint?
