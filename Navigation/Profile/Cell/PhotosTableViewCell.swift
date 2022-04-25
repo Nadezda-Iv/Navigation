@@ -126,23 +126,33 @@ class PhotosTableViewCell: UITableViewCell {
         self.stackViewHorizontal.addArrangedSubview(self.imageFourView)
         
         
-        let topConstraint = self.backView.topAnchor.constraint(equalTo: self.contentView.topAnchor)
-        let leadingConstraint = self.backView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor)
-        let trailingConstraint = self.backView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor)
+        //let topConstraint = self.backView.topAnchor.constraint(equalTo: self.contentView.topAnchor)
+        //let leadingConstraint = self.backView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor)
+        //let trailingConstraint = self.backView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor)
         let bottomConstraint = self.backView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor)
-        let heightConstraint = self.backView.heightAnchor.constraint(equalToConstant: 130)
+        //let heightConstraint = self.backView.heightAnchor.constraint(equalToConstant: 130)
         bottomConstraint.priority = UILayoutPriority(rawValue: 130)
         
         
         
-        let topStackViewConstraint = self.stackViewVertical.topAnchor.constraint(equalTo: self.backView.topAnchor, constant: 12)
-        let bottomStackViewConstraint = self.stackViewVertical.bottomAnchor.constraint(equalTo: self.backView.bottomAnchor, constant: -12)
-        let leadingStackViewConstraint = self.stackViewVertical.leadingAnchor.constraint(equalTo: self.backView.leadingAnchor, constant: 12)
-        let trailingStackViewConstraint = self.stackViewVertical.trailingAnchor.constraint(equalTo: self.backView.trailingAnchor, constant: -12)
+        //let topStackViewConstraint = self.stackViewVertical.topAnchor.constraint(equalTo: self.backView.topAnchor, constant: 12)
+        //let bottomStackViewConstraint = self.stackViewVertical.bottomAnchor.constraint(equalTo: self.backView.bottomAnchor, constant: -12)
+        //let leadingStackViewConstraint = self.stackViewVertical.leadingAnchor.constraint(equalTo: self.backView.leadingAnchor, constant: 12)
+        //let trailingStackViewConstraint = self.stackViewVertical.trailingAnchor.constraint(equalTo: self.backView.trailingAnchor, constant: -12)
         
-        let arrowWidthConstraint = self.arrowImageView.widthAnchor.constraint(equalToConstant: 20)
+        //let arrowWidthConstraint = self.arrowImageView.widthAnchor.constraint(equalToConstant: 20)
         
-        NSLayoutConstraint.activate([ topConstraint, leadingConstraint, trailingConstraint, bottomConstraint, heightConstraint, topStackViewConstraint, bottomStackViewConstraint, leadingStackViewConstraint, trailingStackViewConstraint, arrowWidthConstraint
+        NSLayoutConstraint.activate([
+            self.backView.topAnchor.constraint(equalTo: self.contentView.topAnchor),
+            self.backView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
+            self.backView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor),
+            self.backView.heightAnchor.constraint(equalToConstant: 130),
+            self.stackViewVertical.topAnchor.constraint(equalTo: self.backView.topAnchor, constant: 12),
+            self.stackViewVertical.bottomAnchor.constraint(equalTo: self.backView.bottomAnchor, constant: -12),
+            self.stackViewVertical.leadingAnchor.constraint(equalTo: self.backView.leadingAnchor, constant: 12),
+            self.stackViewVertical.trailingAnchor.constraint(equalTo: self.backView.trailingAnchor, constant: -12),
+            self.arrowImageView.widthAnchor.constraint(equalToConstant: 20),
+            bottomConstraint
         ].compactMap({ $0 }))
     }
     

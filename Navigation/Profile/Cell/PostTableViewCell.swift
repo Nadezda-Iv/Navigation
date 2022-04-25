@@ -9,8 +9,7 @@ import UIKit
 
 
 class PostTableViewCell: UITableViewCell {
-    
-    //private var tap = UITapGestureRecognizer()
+
     private var likesCount = 0
     weak var likesDelegate: ChangeLikesDelegate?
     struct PostUser: PostViewModelProtocol {
@@ -147,37 +146,22 @@ class PostTableViewCell: UITableViewCell {
     }
     
     private func backViewConstraints() -> [NSLayoutConstraint] {
-        let topConstraint = self.backView.topAnchor.constraint(equalTo: self.contentView.topAnchor)
-        let leadingConstraint = self.backView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor)
-        let trailingConstraint = self.backView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor)
-        let bottomConstraint = self.backView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor)
-        
         return [
-            topConstraint, leadingConstraint, trailingConstraint, bottomConstraint
+        self.backView.topAnchor.constraint(equalTo: self.contentView.topAnchor),
+        self.backView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
+        self.backView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor),
+        self.backView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor)
         ]
     }
     
     private func stackViewPostConstraints() -> [NSLayoutConstraint] {
-        let topConstraint = self.stackViewPost.topAnchor.constraint(equalTo: self.backView.topAnchor)
-        let leadingConstraint = self.stackViewPost.leadingAnchor.constraint(equalTo: self.backView.leadingAnchor)
-        let trailingConstraint = self.stackViewPost.trailingAnchor.constraint(equalTo: self.backView.trailingAnchor)
-        let bottomConstraint = self.stackViewPost.bottomAnchor.constraint(equalTo: self.backView.bottomAnchor)
-        
         return [
-            topConstraint, leadingConstraint, trailingConstraint, bottomConstraint,
+      self.stackViewPost.topAnchor.constraint(equalTo: self.backView.topAnchor),
+      self.stackViewPost.leadingAnchor.constraint(equalTo: self.backView.leadingAnchor),
+      self.stackViewPost.trailingAnchor.constraint(equalTo: self.backView.trailingAnchor),
+      self.stackViewPost.bottomAnchor.constraint(equalTo: self.backView.bottomAnchor)
         ]
     }
-    
-    private func stackViewLikesViewsConstraints() -> [NSLayoutConstraint] {
-        let topConstraint = self.stackViewLikesViews.topAnchor.constraint(greaterThanOrEqualTo: self.stackViewPost.bottomAnchor, constant: 20)
-        let leadingConstraint = self.stackViewLikesViews.leadingAnchor.constraint(equalTo: self.stackViewPost.leadingAnchor)
-        let trailingConstraint = self.stackViewLikesViews.trailingAnchor.constraint(equalTo: self.stackViewPost.trailingAnchor)
-        let bottomConstraint = self.stackViewLikesViews.bottomAnchor.constraint(equalTo: self.stackViewPost.bottomAnchor)
-        
-        return [
-            topConstraint, leadingConstraint, trailingConstraint, bottomConstraint]
-    }
-    
 }
 
 extension PostTableViewCell: Setupable {

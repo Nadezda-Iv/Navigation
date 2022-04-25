@@ -110,40 +110,36 @@ class PostDetailViewController: UIViewController {
         self.scrollView.addSubview(pictureImageView)
         self.scrollView.addSubview(likesLabel)
         self.scrollView.addSubview(viewsLabel)
-        
-        let topConstraint = self.scrollView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor)
-        let bottomConstraint = self.scrollView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
-        let leftConstraint = self.scrollView.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor, constant: 15)
-        let rightConstraint = self.scrollView.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: -15)
-        
-        
-        let headerTop = self.headerLabel.topAnchor.constraint(equalTo: self.scrollView.topAnchor, constant: 15)
-        let headerLeft = self.headerLabel.leftAnchor.constraint(equalTo: self.scrollView.leftAnchor, constant: 15)
-        let headerHeight = self.headerLabel.heightAnchor.constraint(equalToConstant: 80)
-        
-        let imageTop = self.pictureImageView.topAnchor.constraint(equalTo: self.headerLabel.bottomAnchor, constant: 40)
-        let imageLeft = self.pictureImageView.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor)
-        let imageRight = self.pictureImageView.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: -15)
-        let imageHeight = self.pictureImageView.heightAnchor.constraint(equalToConstant: 250)
-        
-        let textPostTopConstraint = self.descriptionLabel.topAnchor.constraint(equalTo: self.pictureImageView.bottomAnchor, constant: 90)
-        let textLeftConstraint = self.descriptionLabel.leftAnchor.constraint(equalTo: self.scrollView.leftAnchor)
-        let textRightConstraint = self.descriptionLabel.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: -15)
-   
-        
-        
-        let likesLabelLeft = self.likesLabel.leftAnchor.constraint(equalTo: self.scrollView.leftAnchor)
-        let likesLabelBottom = self.likesLabel.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
-        let likesLabelHeight = self.likesLabel.heightAnchor.constraint(equalToConstant: 50)
-        
-        let viewsLabelLeft = self.viewsLabel.rightAnchor.constraint(equalTo: self.pictureImageView.rightAnchor)
-        let viewsLabelBottom = self.viewsLabel.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
-        let viewsLabelHeight = self.viewsLabel.heightAnchor.constraint(equalToConstant: 50)
-        let viewsLabelWidth = self.viewsLabel.widthAnchor.constraint(equalToConstant: 150)
       
         NSLayoutConstraint.activate([
-           topConstraint, leftConstraint, rightConstraint, bottomConstraint, headerTop, headerLeft, headerHeight, imageTop, imageHeight, imageLeft, imageRight,
-           textPostTopConstraint, textLeftConstraint, textRightConstraint, likesLabelLeft, likesLabelHeight, likesLabelBottom, viewsLabelLeft, viewsLabelBottom, viewsLabelHeight, viewsLabelWidth
+            
+            self.scrollView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            self.scrollView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
+            self.scrollView.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor, constant: 15),
+            self.scrollView.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: -15),
+            
+            
+            self.headerLabel.topAnchor.constraint(equalTo: self.scrollView.topAnchor, constant: 15),
+            self.headerLabel.leftAnchor.constraint(equalTo: self.scrollView.leftAnchor, constant: 15),
+            self.headerLabel.heightAnchor.constraint(equalToConstant: 80),
+            
+            self.pictureImageView.topAnchor.constraint(equalTo: self.headerLabel.bottomAnchor, constant: 40),
+            self.pictureImageView.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor),
+            self.pictureImageView.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: -15),
+            self.pictureImageView.heightAnchor.constraint(equalToConstant: 250),
+            
+            self.descriptionLabel.topAnchor.constraint(equalTo: self.pictureImageView.bottomAnchor, constant: 90),
+            self.descriptionLabel.leftAnchor.constraint(equalTo: self.scrollView.leftAnchor),
+            self.descriptionLabel.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: -15),
+            
+            self.likesLabel.leftAnchor.constraint(equalTo: self.scrollView.leftAnchor),
+            self.likesLabel.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
+            self.likesLabel.heightAnchor.constraint(equalToConstant: 50),
+            
+            self.viewsLabel.rightAnchor.constraint(equalTo: self.pictureImageView.rightAnchor),
+            self.viewsLabel.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
+            self.viewsLabel.heightAnchor.constraint(equalToConstant: 50),
+            self.viewsLabel.widthAnchor.constraint(equalToConstant: 150)
         ].compactMap({ $0 }))
         
     }

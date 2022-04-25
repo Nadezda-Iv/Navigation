@@ -17,14 +17,14 @@ class ProfileViewController: UIViewController {
         let label = UILabel()
         label.text = "Joker"
         label.textColor = .black
-        label.font = UIFont.systemFont(ofSize: 18.0)
+        label.font = UIFont.systemFont(ofSize: 18.0, weight: .bold)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     lazy var statusLabel: UILabel = {
         let label = UILabel()
-        label.text = "Smile"
+        label.text = "Wating for something..."
         label.font = UIFont.systemFont(ofSize: 14.0)
         label.textColor = .gray
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -34,16 +34,21 @@ class ProfileViewController: UIViewController {
     lazy var textField: UITextField = {
         let textField = UITextField()
         textField.isHidden = false
-        textField.backgroundColor = .systemGray6
+        textField.backgroundColor = .white
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.layer.cornerRadius = 12
+        textField.textColor = .systemGray4
+        textField.layer.masksToBounds = true
+        textField.layer.borderWidth = 1
+        textField.layer.borderColor = UIColor.black.cgColor
+        //textField.text = "Set your status..."
         return textField
     }()
     
     lazy var statusButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .systemBlue
-        button.layer.cornerRadius = 4
+        button.layer.cornerRadius = 12
         button.setTitle("Set status", for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -183,77 +188,61 @@ class ProfileViewController: UIViewController {
         self.view.bringSubviewToFront(self.imageview)
         self.view.bringSubviewToFront(self.exitButton)
         
-        
-        
         self.imageViewTopConstraint = imageview.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 16)
         self.imageViewLeftConstraint = imageview.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor, constant: 16)
         
-        
-        let alphaTop = self.alphaForTableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor)
-        let alphsLeading = self.alphaForTableView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor)
-        let alphaTrailing = self.alphaForTableView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor)
         alphaBottomConstraint = self.alphaForTableView.heightAnchor.constraint(equalToConstant: 220)
-        
-        
-        
-        let labelStackTopConstraint = labelsStackView.topAnchor.constraint(equalTo: alphaForTableView.topAnchor, constant: 16)
-        let labelStackLeftConstraint = labelsStackView.leftAnchor.constraint(equalTo: alphaForTableView.leftAnchor, constant: 150)
-        let labelStackRightConstraint = labelsStackView.rightAnchor.constraint(equalTo: alphaForTableView.rightAnchor, constant: -16)
-        let labelStackBottomConstraint = labelsStackView.heightAnchor.constraint(equalToConstant: 150)
-        
-        let labelTop = statusLabel.topAnchor.constraint(equalTo: labelsStackView.topAnchor, constant: 25)
-        let labelLeft = statusLabel.leftAnchor.constraint(equalTo: labelsStackView.leftAnchor)
-        let labelRight = statusLabel.rightAnchor.constraint(equalTo: labelsStackView.rightAnchor, constant: -5)
-        let labelHeight = statusLabel.heightAnchor.constraint(equalToConstant: 50)
-        
-        let statusButtonLeftConstraint = statusButton.leftAnchor.constraint(equalTo: self.alphaForTableView.leftAnchor, constant: 16)
-        let statusButtonRightConstraint = statusButton.rightAnchor.constraint(equalTo: self.alphaForTableView.rightAnchor, constant: -16)
-        let statusButtonTop = statusButton.topAnchor.constraint(equalTo: self.labelsStackView.bottomAnchor, constant: 10)
-        let statusButtonHeight = statusButton.heightAnchor.constraint(equalToConstant: 50)
-        
-        let textFieldRight = textField.rightAnchor.constraint(equalTo: labelsStackView.rightAnchor, constant: -15)
-        let textFieldLeft = self.textField.leftAnchor.constraint(equalTo: labelsStackView.leftAnchor)
-        let textFieldTop = self.textField.topAnchor.constraint(equalTo: statusLabel.bottomAnchor, constant: 40)
-        let textFieldHeight = self.textField.heightAnchor.constraint(equalToConstant: 40)
-        
-        
-        
-        let topExitbutton = self.exitButton.topAnchor.constraint(equalTo: self.alphaForTableView.topAnchor, constant: 25)
-        let rightExitButton = self.exitButton.rightAnchor.constraint(equalTo: self.alphaForTableView.rightAnchor, constant: -25)
-        let wightExitButton = self.exitButton.widthAnchor.constraint(equalToConstant: 25)
-        let heightExitButton  = self.exitButton.heightAnchor.constraint(equalToConstant: 25)
-        
-        let avatarTop = imageview.widthAnchor.constraint(equalToConstant: 80)
-        let avatarHeight = imageview.heightAnchor.constraint(equalToConstant: 80)
-        
-        
-        let tableViewTopConstraint = self.tableView.topAnchor.constraint(equalTo: self.alphaForTableView.bottomAnchor, constant: 15)
-        let tableViewLeadingConstraint = self.tableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 16)
-        let tableViewTrailingConstraint = self.tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -16)
-        let tableViewBottomConstraint = self.tableView.bottomAnchor.constraint(equalTo: self.changeTitleButton.topAnchor)
-        
-        let changeButtonHeightConstraint = self.changeTitleButton.heightAnchor.constraint(equalToConstant: 50)
-        let changeButtonLeadingConstraint = self.changeTitleButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor)
-        let changeButtonTrailingConstraint = self.changeTitleButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
-        let changeButtonBottomConstraint = self.changeTitleButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
-        
-        
+
         NSLayoutConstraint.activate([
             
-            tableViewTopConstraint, tableViewLeadingConstraint, tableViewTrailingConstraint, tableViewBottomConstraint, changeButtonBottomConstraint, changeButtonHeightConstraint, changeButtonLeadingConstraint, changeButtonTrailingConstraint,
-            alphaTop, alphaBottomConstraint, alphsLeading, alphaTrailing,
-            topExitbutton, rightExitButton, wightExitButton, heightExitButton,
-            avatarTop, avatarHeight, self.imageViewTopConstraint, self.imageViewLeftConstraint,
-            statusButtonTop, statusButtonHeight, statusButtonLeftConstraint, statusButtonRightConstraint,
-            textFieldTop, textFieldLeft, textFieldRight, textFieldHeight, labelStackTopConstraint, labelStackLeftConstraint, labelStackRightConstraint, labelStackBottomConstraint,
-            labelTop, labelLeft, labelRight, labelHeight
+            self.changeTitleButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
+            self.changeTitleButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            self.changeTitleButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            self.changeTitleButton.heightAnchor.constraint(equalToConstant: 50),
+            
+            self.tableView.bottomAnchor.constraint(equalTo: self.changeTitleButton.topAnchor),
+            self.tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -16),
+            self.tableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 16),
+            self.tableView.topAnchor.constraint(equalTo: self.alphaForTableView.bottomAnchor, constant: 15),
+            
+            imageview.heightAnchor.constraint(equalToConstant: 80),
+            imageview.widthAnchor.constraint(equalToConstant: 80),
+            
+            self.exitButton.heightAnchor.constraint(equalToConstant: 25),
+            self.exitButton.widthAnchor.constraint(equalToConstant: 25),
+            self.exitButton.rightAnchor.constraint(equalTo: self.alphaForTableView.rightAnchor, constant: -25),
+            self.exitButton.topAnchor.constraint(equalTo: self.alphaForTableView.topAnchor, constant: 25),
+            
+            self.textField.heightAnchor.constraint(equalToConstant: 40),
+            self.textField.topAnchor.constraint(equalTo: statusLabel.bottomAnchor),
+            self.textField.rightAnchor.constraint(equalTo: labelsStackView.rightAnchor),
+            self.textField.leftAnchor.constraint(equalTo: labelsStackView.leftAnchor),
+            
+            self.alphaForTableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            self.alphaForTableView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
+            self.alphaForTableView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
+            
+            labelsStackView.topAnchor.constraint(equalTo: alphaForTableView.topAnchor, constant: 27),
+            labelsStackView.leftAnchor.constraint(equalTo: alphaForTableView.leftAnchor, constant: 150),
+            labelsStackView.rightAnchor.constraint(equalTo: alphaForTableView.rightAnchor, constant: -16),
+            labelsStackView.heightAnchor.constraint(equalToConstant: 140),
+            
+            statusLabel.topAnchor.constraint(equalTo: labelsStackView.bottomAnchor, constant: -85),
+            statusLabel.leftAnchor.constraint(equalTo: labelsStackView.leftAnchor),
+            statusLabel.rightAnchor.constraint(equalTo: labelsStackView.rightAnchor, constant: -5),
+            statusLabel.heightAnchor.constraint(equalToConstant: 35),
+            
+            statusButton.leftAnchor.constraint(equalTo: self.alphaForTableView.leftAnchor, constant: 16),
+            statusButton.rightAnchor.constraint(equalTo: self.alphaForTableView.rightAnchor, constant: -16),
+            statusButton.topAnchor.constraint(equalTo: self.labelsStackView.bottomAnchor, constant: 10),
+            statusButton.heightAnchor.constraint(equalToConstant: 50),
+            alphaBottomConstraint, self.imageViewTopConstraint, self.imageViewLeftConstraint
         ].compactMap({ $0 }))
-        
     }
     
     
     @objc private func printProfileState() {
-        if self.textField.text != ""{
+        if self.textField.text != "" {
             self.statusLabel.text = profile.status
             self.statusLabel.setNeedsDisplay()
             self.textField.backgroundColor = .clear

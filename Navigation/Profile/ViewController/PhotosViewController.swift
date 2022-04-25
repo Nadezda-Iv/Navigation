@@ -80,32 +80,34 @@ class PhotosViewController: UIViewController {
     }
 
     private func addConstraints() {
-
-        let photoCollectionTop = self.photoCollectionView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor)
-        let photoCollectionLeading = self.photoCollectionView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 8)
-        let photoCollectionTrailing = self.photoCollectionView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -8)
-        let photoCollectionBottom = self.photoCollectionView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
-        
-        let alphaViewTopConstraint = self.alphaView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor)
-        let alphaViewBottomConstraint = self.alphaView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
-        let alphaViewLeftConstraint = self.alphaView.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor)
-        let alphaViewRightConstraint = self.alphaView.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor)
         
         let screen = UIScreen.main.bounds
         let screenWidth = screen.size.width
         
-        let imageCenterXConstraint = self.imageview.centerXAnchor.constraint(equalTo: self.alphaView.centerXAnchor)
-        let imageCenterYConstraint = self.imageview.centerYAnchor.constraint(equalTo: self.alphaView.centerYAnchor)
-        let imagewidth = self.imageview.widthAnchor.constraint(equalToConstant: screenWidth)
-        let imageHeight = self.imageview.heightAnchor.constraint(equalToConstant: screenWidth)
-        
-        
-        let exitButtonTopConstraint = self.exitButton.topAnchor.constraint(equalTo: self.alphaView.topAnchor, constant: 25)
-        let exitButtonRightConstraint = self.exitButton.rightAnchor.constraint(equalTo: self.alphaView.rightAnchor, constant: -20)
-        let exitButtonHeightConstraint = self.exitButton.heightAnchor.constraint(equalToConstant: 30)
-        let exitButtonWidthConstraint = self.exitButton.widthAnchor.constraint(equalToConstant: 30)
-
-        NSLayoutConstraint.activate([photoCollectionTop, photoCollectionLeading, photoCollectionTrailing, photoCollectionBottom, exitButtonTopConstraint, exitButtonRightConstraint, exitButtonWidthConstraint, exitButtonHeightConstraint, alphaViewTopConstraint, alphaViewBottomConstraint, alphaViewLeftConstraint, alphaViewRightConstraint, imageCenterYConstraint, imageCenterXConstraint, imagewidth, imageHeight])
+        NSLayoutConstraint.activate([
+            
+            self.photoCollectionView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            self.photoCollectionView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 8),
+            self.photoCollectionView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -8),
+            self.photoCollectionView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
+            
+            self.alphaView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            self.alphaView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
+            self.alphaView.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor),
+            self.alphaView.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor),
+            
+            self.imageview.centerXAnchor.constraint(equalTo: self.alphaView.centerXAnchor),
+            self.imageview.centerYAnchor.constraint(equalTo: self.alphaView.centerYAnchor),
+            self.imageview.widthAnchor.constraint(equalToConstant: screenWidth),
+            self.imageview.heightAnchor.constraint(equalToConstant: screenWidth),
+            
+            
+            self.exitButton.topAnchor.constraint(equalTo: self.alphaView.topAnchor, constant: 25),
+            self.exitButton.rightAnchor.constraint(equalTo: self.alphaView.rightAnchor, constant: -20),
+            self.exitButton.heightAnchor.constraint(equalToConstant: 30),
+            self.exitButton.widthAnchor.constraint(equalToConstant: 30)
+            
+        ])
     }
 
     private var dataSource = photos
@@ -115,7 +117,6 @@ class PhotosViewController: UIViewController {
         let itemWidth = floor(neededWidth / itemCount)
         return CGSize(width: itemWidth, height: itemWidth)
     }
-   
 }
 
 extension PhotosViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {

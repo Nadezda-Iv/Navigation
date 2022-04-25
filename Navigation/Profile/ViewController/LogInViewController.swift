@@ -60,28 +60,24 @@ class LogInViewController: UIViewController {
         self.scrollView.addSubview(loginView)
         self.loginView.statusButton.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
         self.scrollView.addSubview(warningLabel)
-        
-        
-        let scrollTopConstraint = self.scrollView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor)
-        let scrollLeftConstraint = self.scrollView.leftAnchor.constraint(equalTo: self.view.leftAnchor)
-        let scrollRightConstraint = self.scrollView.rightAnchor.constraint(equalTo: self.view.rightAnchor)
-        let scrollBottomConstraint = self.scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
-        
-        let contentWithScrollViewTopConstraint = self.loginView.topAnchor.constraint(equalTo: self.scrollView.topAnchor)
-        let contentWithScrollViewHeightConstraint = self.loginView.heightAnchor.constraint(equalTo: self.scrollView.heightAnchor)
-        let contentViewCenterXConstraint = self.loginView.centerXAnchor.constraint(equalTo: self.scrollView.centerXAnchor)
-        let contentViewWidthConstraint = self.loginView.widthAnchor.constraint(equalTo: self.scrollView.widthAnchor)
-        let bottomConstraint = self.loginView.bottomAnchor.constraint(equalTo: self.scrollView.bottomAnchor)
-        
-        let warningLabelTopConstraint = self.warningLabel.topAnchor.constraint(equalTo: self.loginView.statusButton.bottomAnchor, constant: 2)
-        let warningLabelLeftConstraint = self.warningLabel.leftAnchor.constraint(equalTo: self.loginView.leftAnchor, constant: 15)
-        let warningLabelRightConstraint = self.warningLabel.rightAnchor.constraint(equalTo: self.loginView.rightAnchor, constant: -15)
-        let warningLabelHeightConstraint = self.warningLabel.heightAnchor.constraint(equalToConstant: 45)
-        
-        
+
         NSLayoutConstraint.activate([
-            contentWithScrollViewTopConstraint,contentWithScrollViewHeightConstraint, contentViewCenterXConstraint, contentViewWidthConstraint, bottomConstraint, scrollTopConstraint, scrollLeftConstraint, scrollRightConstraint, scrollBottomConstraint,
-            warningLabelTopConstraint, warningLabelLeftConstraint, warningLabelRightConstraint, warningLabelHeightConstraint
+            
+            self.scrollView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            self.scrollView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
+            self.scrollView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
+            self.scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            
+            self.loginView.topAnchor.constraint(equalTo: self.scrollView.topAnchor),
+            self.loginView.heightAnchor.constraint(equalTo: self.scrollView.heightAnchor),
+            self.loginView.centerXAnchor.constraint(equalTo: self.scrollView.centerXAnchor),
+            self.loginView.widthAnchor.constraint(equalTo: self.scrollView.widthAnchor),
+            self.loginView.bottomAnchor.constraint(equalTo: self.scrollView.bottomAnchor),
+            
+            self.warningLabel.topAnchor.constraint(equalTo: self.loginView.statusButton.bottomAnchor, constant: 2),
+            self.warningLabel.leftAnchor.constraint(equalTo: self.loginView.leftAnchor, constant: 15),
+            self.warningLabel.rightAnchor.constraint(equalTo: self.loginView.rightAnchor, constant: -15),
+            self.warningLabel.heightAnchor.constraint(equalToConstant: 45)
         ].compactMap({ $0 }))
     }
     
@@ -110,8 +106,6 @@ class LogInViewController: UIViewController {
                 navigationController?.pushViewController(postViewController, animated: true)
                 navigationController?.navigationBar.isHidden = true
             } else {
-                //warningLabel.isHidden = false
-                //warningLabel.text =  "Проверьте логин и пароль"
                 let alert = UIAlertController(title: "Проверьте логин и пароль", message: "", preferredStyle: .alert)
                 let buttonActionOk = UIAlertAction(title: "Ok", style: .cancel) { (action:UIAlertAction!) in
                 }
@@ -119,7 +113,6 @@ class LogInViewController: UIViewController {
                 alert.addAction(buttonActionOk)
                 self.present(alert, animated: true)
             }
-            
         }
     }
     
